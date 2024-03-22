@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProMedic Lease", "ProMedic Lease\ProMedic Lease.csproj", "{44B2E415-5852-4B06-87F8-20D8980E84BF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{44B2E415-5852-4B06-87F8-20D8980E84BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44B2E415-5852-4B06-87F8-20D8980E84BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44B2E415-5852-4B06-87F8-20D8980E84BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44B2E415-5852-4B06-87F8-20D8980E84BF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FAE721DB-5506-4E5E-A1BB-A16A739EED97}
+	EndGlobalSection
+EndGlobal
