@@ -1,0 +1,17 @@
+{
+  "Rental": {
+    "GetAll": "SELECT w.id, w.data_start, w.data_koniec, w.uwagi, w.status, s.id AS sprzet_id, s.nazwa AS sprzet_nazwa, s.numer_inwentarzowy, s.data_zakupu, s.numer_faktury, s.numer_identyfikacyjny, s.czy_serwis, s.czy_w_drodze, s.data_likwidacji, s.status AS sprzet_status, s.cena_za_dzien, t.id AS typ_id, t.nazwa AS typ_nazwa, t.opis AS typ_opis, k.id AS klient_id, k.imie AS klient_imie, k.nazwisko AS klient_nazwisko, k.pesel AS klient_pesel, k.ulica AS klient_ulica, k.nr_domu AS klient_nr_domu, k.lokal AS klient_lokal, k.kod_pocztowy AS klient_kod_pocztowy, k.miejscowosc AS klient_miejscowosc, k.email AS klient_email, k.numer_telefonu, p.id AS pracownik_id, p.imie AS pracownik_imie, p.nazwisko AS pracownik_nazwisko, p.username, p.email AS pracownik_email, p.telefon AS pracownik_telefon, p.pesel AS pracownik_pesel, p.ulica AS pracownik_ulica, p.nr_domu AS pracownik_nr_domu, p.lokal AS pracownik_lokal, p.kod_pocztowy AS pracownik_kod_pocztowy, p.miejscowosc AS pracownik_miejscowosc, p.data_zatrudnienia, p.data_zwolnienia, p.zarobek, d.nazwa AS dzial_nazwa, st.nazwa AS stanowisko_nazwa FROM tbl_wypozyczenie w JOIN tbl_sprzet s ON w.sprzet_id = s.id JOIN tbl_typ_sprzetu t ON s.typ_sprzetu_id = t.id JOIN tbl_klient k ON w.klient_id = k.id JOIN tbl_pracownicy p ON w.pracownik_id = p.id JOIN tbl_dzialy d ON p.dzial_id = d.id JOIN tbl_stanowiska st ON p.stanowisko_id = st.id",
+    "GetById": "SELECT ... WHERE id = @id",
+    "Add": "INSERT INTO ...",
+    "Update": "UPDATE ... WHERE id = @id",
+    "Delete": "DELETE FROM ... WHERE id = @id"
+  },
+  "Equipment": {
+    "GetAll": "SELECT ...",
+    "GetById": "SELECT ... WHERE id = @id"
+  },
+  "Client": {
+    "GetAll": "SELECT ...",
+    "GetById": "SELECT ... WHERE id = @id"
+  }
+}

@@ -7,12 +7,7 @@ using System.Threading.Tasks;
 
 namespace ProMedic_Lease.Services.Interfaces
 {
-    public interface IEmployeeService
+    public interface IEmployeeService : IService<Employee>
     {
-        void AddEmployee(Employee employee);
-        Employee GetEmployeeById(long id);
-        IEnumerable<Employee> GetAllEmployees();
-        void UpdateEmployee(Employee employee);
-        void DeleteEmployee(long id);
     }
 }

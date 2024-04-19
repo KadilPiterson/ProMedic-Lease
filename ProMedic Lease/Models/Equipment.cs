@@ -9,16 +9,16 @@ namespace ProMedic_Lease.Models
     public class Equipment
     {
         public long Id { get; set; }
-        public string Name { get; set; }
-        public string InventoryNumber { get; set; }
-        public DateTime PurchaseDate { get; set; }
-        public string InvoiceNumber { get; set; }
-        public string IdentificationNumber { get; set; }
+        public required string Name { get; set; }
+        public required string InventoryNumber { get; set; }
+        public required DateTime PurchaseDate { get; set; }
+        public required string InvoiceNumber { get; set; }
+        public required string IdentificationNumber { get; set; }
         public bool IsServiced { get; set; }
         public bool IsInTransit { get; set; }
         public DateTime? DisposalDate { get; set; }
         public int Status { get; set; }
-        public long EquipmentTypeId { get; set; }
-        public decimal DailyRentalPrice { get; set; }
+        public required EquipmentType EquipmentType { get; set; }
+        public required decimal DailyRentalPrice { get; set; }
     }
 }

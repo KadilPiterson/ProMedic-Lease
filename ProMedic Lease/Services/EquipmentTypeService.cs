@@ -18,29 +18,29 @@ namespace ProMedic_Lease.Services
             _equipmentTypeRepository = equipmentTypeRepository;
         }
 
-        public void AddEquipmentType(EquipmentType equipmentType)
+        public void Add(EquipmentType equipmentType)
         {
-            _equipmentTypeRepository.AddEquipmentType(equipmentType);
+            _equipmentTypeRepository.Add(equipmentType);
         }
 
-        public EquipmentType GetEquipmentTypeById(long id)
+        public EquipmentType GetById(long id)
         {
-            return _equipmentTypeRepository.GetEquipmentTypeById(id);
+            return _equipmentTypeRepository.GetById(id);
         }
 
-        public IEnumerable<EquipmentType> GetAllEquipmentTypes()
+        public IEnumerable<EquipmentType> GetAll()
         {
-            return _equipmentTypeRepository.GetAllEquipmentTypes();
+            return _equipmentTypeRepository.GetAll();
         }
 
-        public void UpdateEquipmentType(EquipmentType equipmentType)
+        public void Update(EquipmentType equipmentType)
         {
-            _equipmentTypeRepository.UpdateEquipmentType(equipmentType);
+            _equipmentTypeRepository.Update(equipmentType);
         }
 
-        public void DeleteEquipmentType(long id)
+        public void Delete(long id)
         {
-            _equipmentTypeRepository.DeleteEquipmentType(id);
+            _equipmentTypeRepository.Delete(id);
         }
     }
 }

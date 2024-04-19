@@ -7,12 +7,7 @@ using System.Threading.Tasks;
 
 namespace ProMedic_Lease.Services.Interfaces
 {
-    public interface IClientService
+    public interface IClientService : IService<Client>
     {
-        void AddClient(Client client);
-        Client GetClientById(long id);
-        IEnumerable<Client> GetAllClients();
-        void UpdateClient(Client client);
-        void DeleteClient(long id);
     }
 }

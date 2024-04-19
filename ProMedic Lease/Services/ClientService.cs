@@ -18,29 +18,29 @@ namespace ProMedic_Lease.Services
             _clientRepository = clientRepository;
         }
 
-        public void AddClient(Client client)
+        public void Add(Client client)
         {
-            _clientRepository.AddClient(client);
+            _clientRepository.Add(client);
         }
 
-        public Client GetClientById(long id)
+        public Client GetById(long id)
         {
-            return _clientRepository.GetClientById(id);
+            return _clientRepository.GetById(id);
         }
 
-        public IEnumerable<Client> GetAllClients()
+        public IEnumerable<Client> GetAll()
         {
-            return _clientRepository.GetAllClients();
+            return _clientRepository.GetAll();
         }
 
-        public void UpdateClient(Client client)
+        public void Update(Client client)
         {
-            _clientRepository.UpdateClient(client);
+            _clientRepository.Update(client);
         }
 
-        public void DeleteClient(long id)
+        public void Delete(long id)
         {
-            _clientRepository.DeleteClient(id);
+            _clientRepository.Delete(id);
         }
     }
 }

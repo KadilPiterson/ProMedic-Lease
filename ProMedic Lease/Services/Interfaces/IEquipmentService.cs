@@ -7,12 +7,7 @@ using System.Threading.Tasks;
 
 namespace ProMedic_Lease.Services.Interfaces
 {
-    public interface IEquipmentService
+    public interface IEquipmentService : IService<Equipment>
     {
-        void AddEquipment(Equipment equipment);
-        Equipment GetEquipmentById(long id);
-        IEnumerable<Equipment> GetAllEquipment();
-        void UpdateEquipment(Equipment equipment);
-        void DeleteEquipment(long id);
     }
 }

@@ -18,29 +18,29 @@ namespace ProMedic_Lease.Services
             _rentalRepository = rentalRepository;
         }
 
-        public void AddRental(Rental rental)
+        public void Add(Rental rental)
         {
-            _rentalRepository.AddRental(rental);
+            _rentalRepository.Add(rental);
         }
 
-        public Rental GetRentalById(long id)
+        public Rental GetById(long id)
         {
-            return _rentalRepository.GetRentalById(id);
+            return _rentalRepository.GetById(id);
         }
 
-        public IEnumerable<Rental> GetAllRentals()
+        public IEnumerable<Rental> GetAll()
         {
-            return _rentalRepository.GetAllRentals();
+            return _rentalRepository.GetAll();
         }
 
-        public void UpdateRental(Rental rental)
+        public void Update(Rental rental)
         {
-            _rentalRepository.UpdateRental(rental);
+            _rentalRepository.Update(rental);
         }
 
-        public void DeleteRental(long id)
+        public void Delete(long id)
         {
-            _rentalRepository.DeleteRental(id);
+            _rentalRepository.Delete(id);
         }
     }
 }

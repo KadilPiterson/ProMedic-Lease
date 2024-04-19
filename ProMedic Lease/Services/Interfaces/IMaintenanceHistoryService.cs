@@ -7,12 +7,7 @@ using System.Threading.Tasks;
 
 namespace ProMedic_Lease.Services.Interfaces
 {
-    public interface IMaintenanceHistoryService
+    public interface IMaintenanceHistoryService : IService<MaintenanceHistory>
     {
-        void AddMaintenanceHistory(MaintenanceHistory maintenanceHistory);
-        MaintenanceHistory GetMaintenanceHistoryById(long id);
-        IEnumerable<MaintenanceHistory> GetAllMaintenanceHistory();
-        void UpdateMaintenanceHistory(MaintenanceHistory maintenanceHistory);
-        void DeleteMaintenanceHistory(long id);
     }
 }

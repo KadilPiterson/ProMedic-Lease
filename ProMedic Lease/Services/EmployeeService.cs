@@ -18,29 +18,29 @@ namespace ProMedic_Lease.Services
             _employeeRepository = employeeRepository;
         }
 
-        public void AddEmployee(Employee employee)
+        public void Add(Employee employee)
         {
-            _employeeRepository.AddEmployee(employee);
+            _employeeRepository.Add(employee);
         }
 
-        public Employee GetEmployeeById(long id)
+        public Employee GetById(long id)
         {
-            return _employeeRepository.GetEmployeeById(id);
+            return _employeeRepository.GetById(id);
         }
 
-        public IEnumerable<Employee> GetAllEmployees()
+        public IEnumerable<Employee> GetAll()
         {
-            return _employeeRepository.GetAllEmployees();
+            return _employeeRepository.GetAll();
         }
 
-        public void UpdateEmployee(Employee employee)
+        public void Update(Employee employee)
         {
-            _employeeRepository.UpdateEmployee(employee);
+            _employeeRepository.Update(employee);
         }
 
-        public void DeleteEmployee(long id)
+        public void Delete(long id)
         {
-            _employeeRepository.DeleteEmployee(id);
+            _employeeRepository.Delete(id);
         }
     }
 }

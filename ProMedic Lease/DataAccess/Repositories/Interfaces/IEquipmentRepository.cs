@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProMedic_Lease.Services.Interfaces
+namespace ProMedic_Lease.DataAccess.Repositories.Interfaces
 {
-    public interface IEquipmentTypeService : IService<EquipmentType>
+    public interface IEquipmentRepository : IRepository<Equipment>
     {
     }
 }

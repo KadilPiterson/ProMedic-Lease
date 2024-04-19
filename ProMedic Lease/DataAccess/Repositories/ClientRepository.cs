@@ -11,7 +11,7 @@ using ProMedic_Lease.DataAccess.Repositories.Interfaces;
 
 namespace ProMedic_Lease.DataAccess.Repositories
 {
-    public class ClientRepository : IRepository<Client>
+    public class ClientRepository : IClientRepository
     {
         private readonly DatabaseManager _databaseManager;
 
@@ -31,14 +31,14 @@ namespace ProMedic_Lease.DataAccess.Repositories
             {
             new SqlParameter("@FirstName", client.FirstName),
             new SqlParameter("@LastName", client.LastName),
-            new SqlParameter("@PESEL", client.PESEL),
+            new SqlParameter("@PESEL", client.Pesel),
             new SqlParameter("@Street", client.Street),
             new SqlParameter("@HouseNumber", client.HouseNumber),
             new SqlParameter("@ApartmentNumber", client.ApartmentNumber),
             new SqlParameter("@PostalCode", client.PostalCode),
             new SqlParameter("@City", client.City),
             new SqlParameter("@Email", client.Email),
-            new SqlParameter("@PhoneNumber", client.PhoneNumber),
+            new SqlParameter("@PhoneNumber", client.Phone),
             };
 
             _databaseManager.ExecuteNonQuery(query, parameters);
@@ -58,14 +58,14 @@ namespace ProMedic_Lease.DataAccess.Repositories
                 Id = (long)row["id"],
                 FirstName = (string)row["imie"],
                 LastName = (string)row["nazwisko"],
-                PESEL = (string)row["pesel"],
+                Pesel = (string)row["pesel"],
                 Street = (string)row["ulica"],
                 HouseNumber = (string)row["nr_domu"],
                 ApartmentNumber = (string)row["lokal"],
                 PostalCode = (string)row["kod_pocztowy"],
                 City = (string)row["miejscowosc"],
                 Email = (string)row["email"],
-                PhoneNumber = (string)row["numer_telefonu"],
+                Phone = (string)row["numer_telefonu"],
             };
         }
 
@@ -82,14 +82,14 @@ namespace ProMedic_Lease.DataAccess.Repositories
                     Id = Convert.ToInt64(row["id"]),
                     FirstName = row["imie"].ToString(),
                     LastName = row["nazwisko"].ToString(),
-                    PESEL = row["pesel"].ToString(),
+                    Pesel = row["pesel"].ToString(),
                     Street = row["ulica"].ToString(),
                     HouseNumber = row["nr_domu"].ToString(),
                     ApartmentNumber = row["lokal"].ToString(),
                     PostalCode = row["kod_pocztowy"].ToString(),
                     City = row["miejscowosc"].ToString(),
                     Email = row["email"].ToString(),
-                    PhoneNumber = row["numer_telefonu"].ToString(),
+                    Phone = row["numer_telefonu"].ToString(),
                 });
             }
 
@@ -118,14 +118,14 @@ namespace ProMedic_Lease.DataAccess.Repositories
                 new SqlParameter("@Id", client.Id),
                 new SqlParameter("@FirstName", client.FirstName),
                 new SqlParameter("@LastName", client.LastName),
-                new SqlParameter("@PESEL", client.PESEL),
+                new SqlParameter("@PESEL", client.Pesel),
                 new SqlParameter("@Street", client.Street),
                 new SqlParameter("@HouseNumber", client.HouseNumber),
                 new SqlParameter("@ApartmentNumber", client.ApartmentNumber),
                 new SqlParameter("@PostalCode", client.PostalCode),
                 new SqlParameter("@City", client.City),
                 new SqlParameter("@Email", client.Email),
-                new SqlParameter("@PhoneNumber", client.PhoneNumber),
+                new SqlParameter("@PhoneNumber", client.Phone),
             };
 
             _databaseManager.ExecuteNonQuery(query, parameters);

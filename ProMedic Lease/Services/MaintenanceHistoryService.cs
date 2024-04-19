@@ -18,29 +18,29 @@ namespace ProMedic_Lease.Services
             _maintenanceHistoryRepository = maintenanceHistoryRepository;
         }
 
-        public void AddMaintenanceHistory(MaintenanceHistory maintenanceHistory)
+        public void Add(MaintenanceHistory maintenanceHistory)
         {
-            _maintenanceHistoryRepository.AddMaintenanceHistory(maintenanceHistory);
+            _maintenanceHistoryRepository.Add(maintenanceHistory);
         }
 
-        public MaintenanceHistory GetMaintenanceHistoryById(long id)
+        public MaintenanceHistory GetById(long id)
         {
-            return _maintenanceHistoryRepository.GetMaintenanceHistoryById(id);
+            return _maintenanceHistoryRepository.GetById(id);
         }
 
-        public IEnumerable<MaintenanceHistory> GetAllMaintenanceHistory()
+        public IEnumerable<MaintenanceHistory> GetAll()
         {
-            return _maintenanceHistoryRepository.GetAllMaintenanceHistory();
+            return _maintenanceHistoryRepository.GetAll();
         }
 
-        public void UpdateMaintenanceHistory(MaintenanceHistory maintenanceHistory)
+        public void Update(MaintenanceHistory maintenanceHistory)
         {
-            _maintenanceHistoryRepository.UpdateMaintenanceHistory(maintenanceHistory);
+            _maintenanceHistoryRepository.Update(maintenanceHistory);
         }
 
-        public void DeleteMaintenanceHistory(long id)
+        public void Delete(long id)
         {
-            _maintenanceHistoryRepository.DeleteMaintenanceHistory(id);
+            _maintenanceHistoryRepository.Delete(id);
         }
     }
 }

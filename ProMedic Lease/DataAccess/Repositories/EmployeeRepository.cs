@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ProMedic_Lease.DataAccess.Repositories
 {
-    public class EmployeeRepository : IRepository<Employee>
+    public class EmployeeRepository : IEmployeeRepository
     {
         private readonly DatabaseManager _databaseManager;
 
@@ -73,22 +73,22 @@ namespace ProMedic_Lease.DataAccess.Repositories
             return new Employee
             {
                 Id = Convert.ToInt64(row["id"]),
-                FirstName = row["imie"].ToString(),
-                LastName = row["nazwisko"].ToString(),
-                Username = row["username"].ToString(),
-                PasswordSalt = row["password_salt"].ToString(),
-                PasswordHash = row["password_hash"].ToString(),
-                Role = row["role"].ToString(),
-                ActivationCode = row["activation_code"].ToString(),
+                FirstName = row["imie"] as string ?? string.Empty,
+                LastName = row["nazwisko"] as string ?? string.Empty,
+                Username = row["username"] as string ?? string.Empty,
+                PasswordSalt = row["password_salt"] as string ?? string.Empty,
+                PasswordHash = row["password_hash"] as string ?? string.Empty,
+                Role = row["role"] as string ?? string.Empty,
+                ActivationCode = row["activation_code"] as string ?? string.Empty,
                 IsActive = Convert.ToBoolean(row["active"]),
-                Email = row["email"].ToString(),
-                Phone = row["telefon"].ToString(),
-                Pesel = row["pesel"].ToString(),
-                Street = row["ulica"].ToString(),
-                HouseNumber = row["nr_domu"].ToString(),
-                ApartmentNumber = row["lokal"].ToString(),
-                PostalCode = row["kod_pocztowy"].ToString(),
-                City = row["miejscowosc"].ToString(),
+                Email = row["email"] as string ?? string.Empty,
+                Phone = row["telefon"] as string ?? string.Empty,
+                Pesel = row["pesel"] as string ?? string.Empty,
+                Street = row["ulica"] as string ?? string.Empty,
+                HouseNumber = row["nr_domu"] as string ?? string.Empty,
+                ApartmentNumber = row["lokal"] as string ?? string.Empty,
+                PostalCode = row["kod_pocztowy"] as string ?? string.Empty,
+                City = row["miejscowosc"] as string ?? string.Empty,
                 EmploymentDate = Convert.ToDateTime(row["data_zatrudnienia"]),
                 TerminationDate = row["data_zwolnienia"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(row["data_zwolnienia"]),
                 Salary = Convert.ToDecimal(row["zarobek"]),

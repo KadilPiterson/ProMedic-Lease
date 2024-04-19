@@ -1,4 +1,5 @@
-﻿using ProMedic_Lease.Models;
+﻿using ProMedic_Lease.DataAccess.Repositories.Interfaces;
+using ProMedic_Lease.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,12 +8,7 @@ using System.Threading.Tasks;
 
 namespace ProMedic_Lease.Services.Interfaces
 {
-    public interface IRentalService
+    public interface IRentalService : IService<Rental>
     {
-        void AddRental(Rental rental);
-        Rental GetRentalById(long id);
-        IEnumerable<Rental> GetAllRentals();
-        void UpdateRental(Rental rental);
-        void DeleteRental(long id);
     }
 }

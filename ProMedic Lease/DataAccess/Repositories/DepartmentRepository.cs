@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ProMedic_Lease.DataAccess.Repositories
 {
-    public class DepartmentRepository : IRepository<Department>
+    public class DepartmentRepository : IDepartmentRepository
     {
         private readonly DatabaseManager _databaseManager;
 

@@ -11,7 +11,7 @@ using ProMedic_Lease.DataAccess.Repositories.Interfaces;
 
 namespace ProMedic_Lease.DataAccess.Repositories
 {
-    public class EquipmentTypeRepository : IRepository<EquipmentType>
+    public class EquipmentTypeRepository : IEquipmentTypeRepository
     {
         private readonly DatabaseManager _databaseManager;
 

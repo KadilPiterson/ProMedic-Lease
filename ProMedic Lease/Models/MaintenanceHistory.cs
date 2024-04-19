@@ -9,11 +9,11 @@ namespace ProMedic_Lease.Models
     public class MaintenanceHistory
     {
         public long Id { get; set; }
-        public long EquipmentId { get; set; }
-        public long EmployeeId { get; set; }
-        public decimal Cost { get; set; }
-        public int Time { get; set; }
-        public DateTime Date { get; set; }
-        public string Description { get; set; }
+        public required long EquipmentId { get; set; }
+        public required long EmployeeId { get; set; }
+        public required decimal Cost { get; set; }
+        public required int Time { get; set; }
+        public required DateTime Date { get; set; }
+        public string? Description { get; set; }
     }
 }
