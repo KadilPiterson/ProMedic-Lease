@@ -14,107 +14,52 @@ namespace ProMedic_Lease.DataAccess.Repositories
     public class ClientRepository : IClientRepository
     {
         private readonly DatabaseManager _databaseManager;
+        private readonly Dictionary<string, string> _clientQueries;
 
         public ClientRepository(DatabaseManager databaseManager)
         {
             _databaseManager = databaseManager;
+            _clientQueries = QueryConfig.Instance.Queries["Client"];
         }
 
         public void Add(Client client)
         {
-            string query = @"
-            INSERT INTO tbl_klient (imie, nazwisko, pesel, ulica, nr_domu, lokal, kod_pocztowy, miejscowosc, email, numer_telefonu)
-            VALUES (@FirstName, @LastName, @PESEL, @Street, @HouseNumber, @ApartmentNumber, @PostalCode, @City, @Email, @PhoneNumber);
-        ";
-
-            SqlParameter[] parameters = new SqlParameter[]
-            {
-            new SqlParameter("@FirstName", client.FirstName),
-            new SqlParameter("@LastName", client.LastName),
-            new SqlParameter("@PESEL", client.Pesel),
-            new SqlParameter("@Street", client.Street),
-            new SqlParameter("@HouseNumber", client.HouseNumber),
-            new SqlParameter("@ApartmentNumber", client.ApartmentNumber),
-            new SqlParameter("@PostalCode", client.PostalCode),
-            new SqlParameter("@City", client.City),
-            new SqlParameter("@Email", client.Email),
-            new SqlParameter("@PhoneNumber", client.Phone),
+            string query = _clientQueries["Add"];
+            SqlParameter[] parameters = {
+                new SqlParameter("@FirstName", client.FirstName),
+                new SqlParameter("@LastName", client.LastName),
+                new SqlParameter("@PESEL", client.Pesel),
+                new SqlParameter("@Street", client.Street),
+                new SqlParameter("@HouseNumber", client.HouseNumber),
+                new SqlParameter("@ApartmentNumber", client.ApartmentNumber),
+                new SqlParameter("@PostalCode", client.PostalCode),
+                new SqlParameter("@City", client.City),
+                new SqlParameter("@Email", client.Email),
+                new SqlParameter("@Phone", client.Phone)
             };
-
             _databaseManager.ExecuteNonQuery(query, parameters);
         }
 
         public Client GetById(long id)
         {
-            string query = "SELECT * FROM tbl_klient WHERE id = @Id";
+            string query = _clientQueries["GetById"];
             SqlParameter[] parameters = { new SqlParameter("@Id", id) };
-
             var dataTable = _databaseManager.ExecuteQuery(query, parameters);
             if (dataTable.Rows.Count == 0) return null;
-
-            var row = dataTable.Rows[0];
-            return new Client
-            {
-                Id = (long)row["id"],
-                FirstName = (string)row["imie"],
-                LastName = (string)row["nazwisko"],
-                Pesel = (string)row["pesel"],
-                Street = (string)row["ulica"],
-                HouseNumber = (string)row["nr_domu"],
-                ApartmentNumber = (string)row["lokal"],
-                PostalCode = (string)row["kod_pocztowy"],
-                City = (string)row["miejscowosc"],
-                Email = (string)row["email"],
-                Phone = (string)row["numer_telefonu"],
-            };
+            return MapClientFromDataRow(dataTable.Rows[0]);
         }
 
         public IEnumerable<Client> GetAll()
         {
-            List<Client> clients = new List<Client>();
-            string query = "SELECT * FROM tbl_klient";
-
+            string query = _clientQueries["GetAll"];
             var dataTable = _databaseManager.ExecuteQuery(query);
-            foreach (DataRow row in dataTable.Rows)
-            {
-                clients.Add(new Client
-                {
-                    Id = Convert.ToInt64(row["id"]),
-                    FirstName = row["imie"].ToString(),
-                    LastName = row["nazwisko"].ToString(),
-                    Pesel = row["pesel"].ToString(),
-                    Street = row["ulica"].ToString(),
-                    HouseNumber = row["nr_domu"].ToString(),
-                    ApartmentNumber = row["lokal"].ToString(),
-                    PostalCode = row["kod_pocztowy"].ToString(),
-                    City = row["miejscowosc"].ToString(),
-                    Email = row["email"].ToString(),
-                    Phone = row["numer_telefonu"].ToString(),
-                });
-            }
-
-            return clients;
+            return dataTable.AsEnumerable().Select(row => MapClientFromDataRow(row)).ToList();
         }
 
         public void Update(Client client)
         {
-            string query = @"
-            UPDATE tbl_klient SET 
-            imie = @FirstName, 
-            nazwisko = @LastName, 
-            pesel = @PESEL, 
-            ulica = @Street, 
-            nr_domu = @HouseNumber, 
-            lokal = @ApartmentNumber, 
-            kod_pocztowy = @PostalCode, 
-            miejscowosc = @City, 
-            email = @Email, 
-            numer_telefonu = @PhoneNumber
-            WHERE id = @Id;
-            ";
-
-            SqlParameter[] parameters = new SqlParameter[]
-            {
+            string query = _clientQueries["Update"];
+            SqlParameter[] parameters = {
                 new SqlParameter("@Id", client.Id),
                 new SqlParameter("@FirstName", client.FirstName),
                 new SqlParameter("@LastName", client.LastName),
@@ -125,21 +70,34 @@ namespace ProMedic_Lease.DataAccess.Repositories
                 new SqlParameter("@PostalCode", client.PostalCode),
                 new SqlParameter("@City", client.City),
                 new SqlParameter("@Email", client.Email),
-                new SqlParameter("@PhoneNumber", client.Phone),
+                new SqlParameter("@Phone", client.Phone)
             };
-
             _databaseManager.ExecuteNonQuery(query, parameters);
         }
 
         public void Delete(long id)
         {
-            string query = "DELETE FROM tbl_klient WHERE id = @Id";
-            SqlParameter[] parameters = new SqlParameter[]
-            {
-                new SqlParameter("@Id", id)
-            };
-
+            string query = _clientQueries["Delete"];
+            SqlParameter[] parameters = { new SqlParameter("@Id", id) };
             _databaseManager.ExecuteNonQuery(query, parameters);
+        }
+
+        private Client MapClientFromDataRow(DataRow row)
+        {
+            return new Client
+            {
+                Id = (long)row["id"],
+                FirstName = (string)row["FirstName"],
+                LastName = (string)row["LastName"],
+                Pesel = (string)row["PESEL"],
+                Street = (string)row["Street"],
+                HouseNumber = (string)row["HouseNumber"],
+                ApartmentNumber = (string)row["ApartmentNumber"],
+                PostalCode = (string)row["PostalCode"],
+                City = (string)row["City"],
+                Email = (string)row["Email"],
+                Phone = (string)row["Phone"]
+            };
         }
     }
 }
