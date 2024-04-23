@@ -4,203 +4,149 @@ using ProMedic_Lease.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data;
 
 namespace ProMedic_Lease.DataAccess.Repositories
 {
     public class EmployeeRepository : IEmployeeRepository
     {
         private readonly DatabaseManager _databaseManager;
+        private readonly Dictionary<string, string> _queries;
 
         public EmployeeRepository(DatabaseManager databaseManager)
         {
             _databaseManager = databaseManager;
+            _queries = QueryConfig.Instance.Queries["Employee"];
         }
 
         public void Add(Employee employee)
         {
-            string query = @"
-            INSERT INTO tbl_pracownicy (imie, nazwisko, username, password_salt, password_hash, role, activation_code, active, email, telefon, pesel, ulica, nr_domu, lokal, kod_pocztowy, miejscowosc, data_zatrudnienia, data_zwolnienia, zarobek, dzial_id, stanowisko_id)
-            VALUES (@FirstName, @LastName, @Username, @PasswordSalt, @PasswordHash, @Role, @ActivationCode, @IsActive, @Email, @Phone, @Pesel, @Street, @HouseNumber, @ApartmentNumber, @PostalCode, @City, @EmploymentDate, @TerminationDate, @Salary, @DepartmentId, @PositionId);
-        ";
-
-            SqlParameter[] parameters = new SqlParameter[]
-            {
-            new SqlParameter("@FirstName", employee.FirstName),
-            new SqlParameter("@LastName", employee.LastName),
-            new SqlParameter("@Username", employee.Username),
-            new SqlParameter("@PasswordSalt", employee.PasswordSalt),
-            new SqlParameter("@PasswordHash", employee.PasswordHash),
-            new SqlParameter("@Role", employee.Role),
-            new SqlParameter("@ActivationCode", employee.ActivationCode),
-            new SqlParameter("@IsActive", employee.IsActive),
-            new SqlParameter("@Email", employee.Email),
-            new SqlParameter("@Phone", employee.Phone),
-            new SqlParameter("@Pesel", employee.Pesel),
-            new SqlParameter("@Street", employee.Street),
-            new SqlParameter("@HouseNumber", employee.HouseNumber),
-            new SqlParameter("@ApartmentNumber", employee.ApartmentNumber),
-            new SqlParameter("@PostalCode", employee.PostalCode),
-            new SqlParameter("@City", employee.City),
-            new SqlParameter("@EmploymentDate", employee.EmploymentDate),
-            new SqlParameter("@TerminationDate", (object)employee.TerminationDate ?? DBNull.Value), // Convert nullable DateTime to DBNull if null
-            new SqlParameter("@Salary", employee.Salary),
-            new SqlParameter("@DepartmentId", employee.Department.Id),
-            new SqlParameter("@PositionId", employee.Position.Id)
-            };
-
+            string query = _queries["Add"];
+            SqlParameter[] parameters = BuildParameters(employee);
             _databaseManager.ExecuteNonQuery(query, parameters);
+            var cached = Cache.EmployeesCache.Get(employee.Id);
+            if (cached != null)
+            {
+                Cache.EmployeesCache.Remove(cached.Id);
+            }
+            Cache.EmployeesCache.Add(employee.Id, employee);
         }
 
         public Employee GetById(long id)
         {
-            string query = "SELECT * FROM tbl_pracownicy WHERE id = @Id";
-            SqlParameter[] parameters = new SqlParameter[]
+            var cached = Cache.EmployeesCache.Get(id);
+            if (cached != null)
             {
-                new SqlParameter("@Id", id)
-            };
-
-            var dataTable = _databaseManager.ExecuteQuery(query, parameters);
-            if (dataTable.Rows.Count == 0)
-            {
-                return null;
+                Cache.EmployeesCache.Remove(cached.Id);
             }
 
-            DataRow row = dataTable.Rows[0];
-            return new Employee
-            {
-                Id = Convert.ToInt64(row["id"]),
-                FirstName = row["imie"] as string ?? string.Empty,
-                LastName = row["nazwisko"] as string ?? string.Empty,
-                Username = row["username"] as string ?? string.Empty,
-                PasswordSalt = row["password_salt"] as string ?? string.Empty,
-                PasswordHash = row["password_hash"] as string ?? string.Empty,
-                Role = row["role"] as string ?? string.Empty,
-                ActivationCode = row["activation_code"] as string ?? string.Empty,
-                IsActive = Convert.ToBoolean(row["active"]),
-                Email = row["email"] as string ?? string.Empty,
-                Phone = row["telefon"] as string ?? string.Empty,
-                Pesel = row["pesel"] as string ?? string.Empty,
-                Street = row["ulica"] as string ?? string.Empty,
-                HouseNumber = row["nr_domu"] as string ?? string.Empty,
-                ApartmentNumber = row["lokal"] as string ?? string.Empty,
-                PostalCode = row["kod_pocztowy"] as string ?? string.Empty,
-                City = row["miejscowosc"] as string ?? string.Empty,
-                EmploymentDate = Convert.ToDateTime(row["data_zatrudnienia"]),
-                TerminationDate = row["data_zwolnienia"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(row["data_zwolnienia"]),
-                Salary = Convert.ToDecimal(row["zarobek"]),
-                Department = new Department { Id = Convert.ToInt64(row["dzial_id"]) },
-                Position = new Position { Id = Convert.ToInt64(row["stanowisko_id"]) }
-            };
+            string query = _queries["GetById"];
+            SqlParameter[] parameters = new SqlParameter[] { new SqlParameter("@Id", id) };
+            var dataTable = _databaseManager.ExecuteQuery(query, parameters);
+            return dataTable.Rows.Count == 0 ? null : MapFromDataRow(dataTable.Rows[0]);
         }
 
         public IEnumerable<Employee> GetAll()
         {
-            List<Employee> employeeList = new List<Employee>();
-            string query = "SELECT * FROM tbl_pracownicy";
-
+            Cache.EmployeesCache.Clear();
+            string query = _queries["GetAll"];
             var dataTable = _databaseManager.ExecuteQuery(query);
-            foreach (DataRow row in dataTable.Rows)
-            {
-                employeeList.Add(new Employee
-                {
-                    Id = Convert.ToInt64(row["id"]),
-                    FirstName = row["imie"].ToString(),
-                    LastName = row["nazwisko"].ToString(),
-                    Username = row["username"].ToString(),
-                    PasswordSalt = row["password_salt"].ToString(),
-                    PasswordHash = row["password_hash"].ToString(),
-                    Role = row["role"].ToString(),
-                    ActivationCode = row["activation_code"].ToString(),
-                    IsActive = Convert.ToBoolean(row["active"]),
-                    Email = row["email"].ToString(),
-                    Phone = row["telefon"].ToString(),
-                    Pesel = row["pesel"].ToString(),
-                    Street = row["ulica"].ToString(),
-                    HouseNumber = row["nr_domu"].ToString(),
-                    ApartmentNumber = row["lokal"].ToString(),
-                    PostalCode = row["kod_pocztowy"].ToString(),
-                    City = row["miejscowosc"].ToString(),
-                    EmploymentDate = Convert.ToDateTime(row["data_zatrudnienia"]),
-                    TerminationDate = row["data_zwolnienia"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(row["data_zwolnienia"]),
-                    Salary = Convert.ToDecimal(row["zarobek"]),
-                    Department = new Department { Id = Convert.ToInt64(row["dzial_id"]) },
-                    Position = new Position { Id = Convert.ToInt64(row["stanowisko_id"]) }
-                });
-            }
-
-            return employeeList;
+            return dataTable.AsEnumerable().Select(row => MapFromDataRow(row)).ToList();
         }
 
         public void Update(Employee employee)
         {
-            string query = @"
-            UPDATE tbl_pracownicy 
-            SET imie = @FirstName, 
-                nazwisko = @LastName, 
-                username = @Username, 
-                password_salt = @PasswordSalt, 
-                password_hash = @PasswordHash, 
-                role = @Role, 
-                activation_code = @ActivationCode, 
-                active = @IsActive, 
-                email = @Email, 
-                telefon = @Phone, 
-                pesel = @Pesel, 
-                ulica = @Street, 
-                nr_domu = @HouseNumber, 
-                lokal = @ApartmentNumber, 
-                kod_pocztowy = @PostalCode, 
-                miejscowosc = @City, 
-                data_zatrudnienia = @EmploymentDate, 
-                data_zwolnienia = @TerminationDate, 
-                zarobek = @Salary, 
-                dzial_id = @DepartmentId, 
-                stanowisko_id = @PositionId
-            WHERE id = @Id;
-            ";
-
-            SqlParameter[] parameters = new SqlParameter[]
-            {
-            new SqlParameter("@Id", employee.Id),
-            new SqlParameter("@FirstName", employee.FirstName),
-            new SqlParameter("@LastName", employee.LastName),
-            new SqlParameter("@Username", employee.Username),
-            new SqlParameter("@PasswordSalt", employee.PasswordSalt),
-            new SqlParameter("@PasswordHash", employee.PasswordHash),
-            new SqlParameter("@Role", employee.Role),
-            new SqlParameter("@ActivationCode", employee.ActivationCode),
-            new SqlParameter("@IsActive", employee.IsActive),
-            new SqlParameter("@Email", employee.Email),
-            new SqlParameter("@Phone", employee.Phone),
-            new SqlParameter("@Pesel", employee.Pesel),
-            new SqlParameter("@Street", employee.Street),
-            new SqlParameter("@HouseNumber", employee.HouseNumber),
-            new SqlParameter("@ApartmentNumber", employee.ApartmentNumber),
-            new SqlParameter("@PostalCode", employee.PostalCode),
-            new SqlParameter("@City", employee.City),
-            new SqlParameter("@EmploymentDate", employee.EmploymentDate),
-            new SqlParameter("@TerminationDate", (object)employee.TerminationDate ?? DBNull.Value),
-            new SqlParameter("@Salary", employee.Salary),
-            new SqlParameter("@DepartmentId", employee.Department),
-            new SqlParameter("@PositionId", employee.Position)
-            };
-
+            string query = _queries["Update"];
+            SqlParameter[] parameters = BuildParameters(employee, includeId: true);
             _databaseManager.ExecuteNonQuery(query, parameters);
+            Cache.EmployeesCache.Update(employee.Id, employee);
         }
 
         public void Delete(long id)
         {
-            string query = "DELETE FROM tbl_pracownicy WHERE id = @Id";
-            SqlParameter[] parameters = new SqlParameter[]
+            string query = _queries["Delete"];
+            SqlParameter[] parameters = new SqlParameter[] { new SqlParameter("@Id", id) };
+            _databaseManager.ExecuteNonQuery(query, parameters);
+            Cache.EmployeesCache.Remove(id);
+        }
+
+        private SqlParameter[] BuildParameters(Employee employee, bool includeId = false)
+        {
+            var parameters = new List<SqlParameter>
             {
-            new SqlParameter("@Id", id)
+                new SqlParameter("@FirstName", employee.FirstName),
+                new SqlParameter("@LastName", employee.LastName),
+                new SqlParameter("@Username", employee.Username),
+                new SqlParameter("@PasswordSalt", employee.PasswordSalt),
+                new SqlParameter("@PasswordHash", employee.PasswordHash),
+                new SqlParameter("@Role", employee.Role),
+                new SqlParameter("@ActivationCode", employee.ActivationCode),
+                new SqlParameter("@IsActive", employee.IsActive),
+                new SqlParameter("@Email", employee.Email),
+                new SqlParameter("@Phone", employee.Phone),
+                new SqlParameter("@Pesel", employee.Pesel),
+                new SqlParameter("@Street", employee.Street),
+                new SqlParameter("@HouseNumber", employee.HouseNumber),
+                new SqlParameter("@ApartmentNumber", employee.ApartmentNumber),
+                new SqlParameter("@PostalCode", employee.PostalCode),
+                new SqlParameter("@City", employee.City),
+                new SqlParameter("@EmploymentDate", employee.EmploymentDate),
+                new SqlParameter("@TerminationDate", employee.TerminationDate ?? (object)DBNull.Value),
+                new SqlParameter("@Salary", employee.Salary),
+                new SqlParameter("@DepartmentId", employee.Department.Id),
+                new SqlParameter("@PositionId", employee.Position.Id)
             };
 
-            _databaseManager.ExecuteNonQuery(query, parameters);
+            if (includeId)
+            {
+                parameters.Add(new SqlParameter("@Id", employee.Id));
+            }
+
+            return parameters.ToArray();
+        }
+
+        private Employee MapFromDataRow(DataRow row)
+        {
+            long employeeId = Convert.ToInt64(row["id"]);
+            return Cache.EmployeesCache.GetOrCreate(employeeId, () => Create(row));
+        }
+
+        private Employee Create(DataRow row)
+        {
+            return new Employee
+            {
+                Id = Convert.ToInt64(row["id"]),
+                FirstName = row["FirstName"] as string ?? string.Empty,
+                LastName = row["LastName"] as string ?? string.Empty,
+                Username = row["Username"] as string ?? string.Empty,
+                PasswordSalt = row["PasswordSalt"] as string ?? string.Empty,
+                PasswordHash = row["PasswordHash"] as string ?? string.Empty,
+                Role = row["Role"] as string ?? string.Empty,
+                ActivationCode = row["ActivationCode"] as string ?? string.Empty,
+                IsActive = Convert.ToBoolean(row["IsActive"]),
+                Email = row["Email"] as string ?? string.Empty,
+                Phone = row["Phone"] as string ?? string.Empty,
+                Pesel = row["Pesel"] as string ?? string.Empty,
+                Street = row["Street"] as string ?? string.Empty,
+                HouseNumber = row["HouseNumber"] as string ?? string.Empty,
+                ApartmentNumber = row["ApartmentNumber"] as string ?? string.Empty,
+                PostalCode = row["PostalCode"] as string ?? string.Empty,
+                City = row["City"] as string ?? string.Empty,
+                EmploymentDate = Convert.ToDateTime(row["EmploymentDate"]),
+                TerminationDate = row.IsNull("TerminationDate") ? (DateTime?)null : Convert.ToDateTime(row["TerminationDate"]),
+                Salary = Convert.ToDecimal(row["Salary"]),
+                Department = Cache.DepartmentsCache.GetOrCreate(Convert.ToInt64(row["DepartmentId"]), () => new Department
+                {
+                    Id = Convert.ToInt64(row["DepartmentId"]),
+                    Name = row["DepartmentName"] as string ?? string.Empty
+                }),
+                Position = Cache.PositionsCache.GetOrCreate(Convert.ToInt64(row["PositionId"]), () => new Position
+                {
+                    Id = Convert.ToInt64(row["PositionId"]),
+                    Name = row["PositionName"] as string ?? string.Empty
+                })
+            };
         }
     }
 }

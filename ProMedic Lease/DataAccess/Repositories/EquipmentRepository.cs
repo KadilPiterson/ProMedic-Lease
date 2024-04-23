@@ -14,143 +14,112 @@ namespace ProMedic_Lease.DataAccess.Repositories
     public class EquipmentRepository : IEquipmentRepository
     {
         private readonly DatabaseManager _databaseManager;
+        private readonly Dictionary<string, string> _queries;
 
         public EquipmentRepository(DatabaseManager databaseManager)
         {
             _databaseManager = databaseManager;
+            _queries = QueryConfig.Instance.Queries["Equipment"];
         }
 
         public void Add(Equipment equipment)
         {
-            string query = @"
-            INSERT INTO tbl_sprzet (nazwa, numer_inwentarzowy, data_zakupu, numer_faktury, numer_identyfikacyjny, czy_serwis, czy_w_drodze, data_likwidacji, status, typ_sprzetu_id, cena_za_dzien)
-            VALUES (@Name, @InventoryNumber, @PurchaseDate, @InvoiceNumber, @IdentificationNumber, @IsServiced, @IsInTransit, @DisposalDate, @Status, @EquipmentTypeId, @DailyRentalPrice);
-        ";
-
-            SqlParameter[] parameters = new SqlParameter[]
-            {
-            new SqlParameter("@Name", equipment.Name),
-            new SqlParameter("@InventoryNumber", equipment.InventoryNumber),
-            new SqlParameter("@PurchaseDate", equipment.PurchaseDate),
-            new SqlParameter("@InvoiceNumber", equipment.InvoiceNumber),
-            new SqlParameter("@IdentificationNumber", equipment.IdentificationNumber),
-            new SqlParameter("@IsServiced", equipment.IsServiced),
-            new SqlParameter("@IsInTransit", equipment.IsInTransit),
-            new SqlParameter("@DisposalDate", (object)equipment.DisposalDate ?? DBNull.Value), // Convert nullable DateTime to DBNull if null
-            new SqlParameter("@Status", equipment.Status),
-            new SqlParameter("@EquipmentTypeId", equipment.EquipmentTypeId),
-            new SqlParameter("@DailyRentalPrice", equipment.DailyRentalPrice)
-            };
-
+            string query = _queries["Add"];
+            SqlParameter[] parameters = BuildParameters(equipment);
             _databaseManager.ExecuteNonQuery(query, parameters);
+            var cached = Cache.EquipmentsCache.Get(equipment.Id);
+            if (cached != null)
+            {
+                Cache.EquipmentsCache.Remove(cached.Id);
+            }
+            Cache.EquipmentsCache.Add(cached.Id, cached);
         }
 
         public Equipment GetById(long id)
         {
-            string query = "SELECT * FROM tbl_sprzet WHERE id = @Id";
-            SqlParameter[] parameters = new SqlParameter[]
+            var cached = Cache.EquipmentsCache.Get(id);
+            if (cached != null)
             {
-            new SqlParameter("@Id", id)
-            };
-
-            var dataTable = _databaseManager.ExecuteQuery(query, parameters);
-            if (dataTable.Rows.Count == 0)
-            {
-                return null;
+                Cache.EquipmentsCache.Remove(cached.Id);
             }
 
-            DataRow row = dataTable.Rows[0];
-            return new Equipment
-            {
-                Id = Convert.ToInt64(row["id"]),
-                Name = row["nazwa"].ToString(),
-                InventoryNumber = row["numer_inwentarzowy"].ToString(),
-                PurchaseDate = Convert.ToDateTime(row["data_zakupu"]),
-                InvoiceNumber = row["numer_faktury"].ToString(),
-                IdentificationNumber = row["numer_identyfikacyjny"].ToString(),
-                IsServiced = Convert.ToBoolean(row["czy_serwis"]),
-                IsInTransit = Convert.ToBoolean(row["czy_w_drodze"]),
-                DisposalDate = row["data_likwidacji"] == DBNull.Value ? null : Convert.ToDateTime(row["data_likwidacji"]),
-                Status = Convert.ToInt32(row["status"]),
-                EquipmentTypeId = Convert.ToInt64(row["typ_sprzetu_id"]),
-                DailyRentalPrice = Convert.ToDecimal(row["cena_za_dzien"])
-            };
+            string query = _queries["GetById"];
+            SqlParameter[] parameters = { new SqlParameter("@Id", id) };
+            var dataTable = _databaseManager.ExecuteQuery(query, parameters);
+            return dataTable.Rows.Count == 0 ? null : MapFromDataRow(dataTable.Rows[0]);
         }
 
         public IEnumerable<Equipment> GetAll()
         {
-            List<Equipment> equipmentList = new List<Equipment>();
-            string query = "SELECT * FROM tbl_sprzet";
-
+            string query = _queries["GetAll"];
             var dataTable = _databaseManager.ExecuteQuery(query);
-            foreach (DataRow row in dataTable.Rows)
-            {
-                equipmentList.Add(new Equipment
-                {
-                    Id = Convert.ToInt64(row["id"]),
-                    Name = row["nazwa"].ToString(),
-                    InventoryNumber = row["numer_inwentarzowy"].ToString(),
-                    PurchaseDate = Convert.ToDateTime(row["data_zakupu"]),
-                    InvoiceNumber = row["numer_faktury"].ToString(),
-                    IdentificationNumber = row["numer_identyfikacyjny"].ToString(),
-                    IsServiced = Convert.ToBoolean(row["czy_serwis"]),
-                    IsInTransit = Convert.ToBoolean(row["czy_w_drodze"]),
-                    DisposalDate = row["data_likwidacji"] == DBNull.Value ? null : Convert.ToDateTime(row["data_likwidacji"]),
-                    Status = Convert.ToInt32(row["status"]),
-                    EquipmentTypeId = Convert.ToInt64(row["typ_sprzetu_id"]),
-                    DailyRentalPrice = Convert.ToDecimal(row["cena_za_dzien"])
-                });
-            }
-
-            return equipmentList;
+            return dataTable.AsEnumerable().Select(row => MapFromDataRow(row)).ToList();
         }
 
         public void Update(Equipment equipment)
         {
-            string query = @"
-            UPDATE tbl_sprzet 
-            SET nazwa = @Name, 
-                numer_inwentarzowy = @InventoryNumber, 
-                data_zakupu = @PurchaseDate, 
-                numer_faktury = @InvoiceNumber, 
-                numer_identyfikacyjny = @IdentificationNumber, 
-                czy_serwis = @IsServiced, 
-                czy_w_drodze = @IsInTransit, 
-                data_likwidacji = @DisposalDate, 
-                status = @Status, 
-                typ_sprzetu_id = @EquipmentTypeId, 
-                cena_za_dzien = @DailyRentalPrice
-            WHERE id = @Id;
-        ";
-
-            SqlParameter[] parameters = new SqlParameter[]
-            {
-            new SqlParameter("@Id", equipment.Id),
-            new SqlParameter("@Name", equipment.Name),
-            new SqlParameter("@InventoryNumber", equipment.InventoryNumber),
-            new SqlParameter("@PurchaseDate", equipment.PurchaseDate),
-            new SqlParameter("@InvoiceNumber", equipment.InvoiceNumber),
-            new SqlParameter("@IdentificationNumber", equipment.IdentificationNumber),
-            new SqlParameter("@IsServiced", equipment.IsServiced),
-            new SqlParameter("@IsInTransit", equipment.IsInTransit),
-            new SqlParameter("@DisposalDate", (object)equipment.DisposalDate ?? DBNull.Value),
-            new SqlParameter("@Status", equipment.Status),
-            new SqlParameter("@EquipmentTypeId", equipment.EquipmentTypeId),
-            new SqlParameter("@DailyRentalPrice", equipment.DailyRentalPrice)
-            };
-
+            string query = _queries["Update"];
+            SqlParameter[] parameters = BuildParameters(equipment);
             _databaseManager.ExecuteNonQuery(query, parameters);
+            Cache.EquipmentsCache.Update(equipment.Id, equipment);
         }
 
         public void Delete(long id)
         {
-            string query = "DELETE FROM tbl_sprzet WHERE id = @Id";
-            SqlParameter[] parameters = new SqlParameter[]
-            {
-                new SqlParameter("@Id", id)
-            };
-
+            string query = _queries["Delete"];
+            SqlParameter[] parameters = { new SqlParameter("@Id", id) };
             _databaseManager.ExecuteNonQuery(query, parameters);
+            Cache.EquipmentsCache.Remove(id);
+        }
+
+        private SqlParameter[] BuildParameters(Equipment equipment)
+        {
+            return new SqlParameter[]
+            {
+                new SqlParameter("@Id", equipment.Id),
+                new SqlParameter("@Name", equipment.Name),
+                new SqlParameter("@InventoryNumber", equipment.InventoryNumber),
+                new SqlParameter("@PurchaseDate", equipment.PurchaseDate),
+                new SqlParameter("@InvoiceNumber", equipment.InvoiceNumber),
+                new SqlParameter("@IdentificationNumber", equipment.IdentificationNumber),
+                new SqlParameter("@IsServiced", equipment.IsServiced),
+                new SqlParameter("@IsInTransit", equipment.IsInTransit),
+                new SqlParameter("@DisposalDate", (object)equipment.DisposalDate ?? DBNull.Value),
+                new SqlParameter("@Status", equipment.Status),
+                new SqlParameter("@EquipmentTypeId", equipment.EquipmentType.Id),
+                new SqlParameter("@DailyRentalPrice", equipment.DailyRentalPrice)
+            };
+        }
+
+        private Equipment MapFromDataRow(DataRow row)
+        {
+            long id = Convert.ToInt64(row["id"]);
+            return Cache.EquipmentsCache.GetOrCreate(id, () => Create(row));
+        }
+
+
+        private Equipment Create(DataRow row)
+        {
+            return new Equipment
+            {
+                Id = Convert.ToInt64(row["id"]),
+                Name = row["nazwa"] as string ?? string.Empty,
+                InventoryNumber = row["numer_inwentarzowy"] as string ?? string.Empty,
+                PurchaseDate = Convert.ToDateTime(row["data_zakupu"]),
+                InvoiceNumber = row["numer_faktury"] as string ?? string.Empty,
+                IdentificationNumber = row["numer_identyfikacyjny"] as string ?? string.Empty,
+                IsServiced = Convert.ToBoolean(row["czy_serwis"]),
+                IsInTransit = Convert.ToBoolean(row["czy_w_drodze"]),
+                DisposalDate = row["data_likwidacji"] == DBNull.Value ? null : Convert.ToDateTime(row["data_likwidacji"]),
+                Status = Convert.ToInt32(row["status"]),
+                EquipmentType = Cache.EquipmentTypesCache.GetOrCreate(Convert.ToInt64(row["typ_sprzetu_id"]), () => new EquipmentType
+                {
+                    Id = Convert.ToInt64(row["typ_sprzetu_id"]),
+                    Name = row["typ_sprzetu_nazwa"] as string ?? string.Empty,
+                    Description = row["typ_sprzetu_opis"] as string ?? string.Empty
+                }),
+                DailyRentalPrice = Convert.ToDecimal(row["cena_za_dzien"])
+            };
         }
     }
 }

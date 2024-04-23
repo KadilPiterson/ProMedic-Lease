@@ -20,5 +20,12 @@
     "Add": "INSERT INTO tbl_klient (imie, nazwisko, pesel, ulica, nr_domu, lokal, kod_pocztowy, miejscowosc, email, numer_telefonu) VALUES (@FirstName, @LastName, @PESEL, @Street, @HouseNumber, @ApartmentNumber, @PostalCode, @City, @Email, @Phone)",
     "Update": "UPDATE tbl_klient SET imie = @FirstName, nazwisko = @LastName, pesel = @PESEL, ulica = @Street, nr_domu = @HouseNumber, lokal = @ApartmentNumber, kod_pocztowy = @PostalCode, miejscowosc = @City, email = @Email, numer_telefonu = @Phone WHERE id = @Id",
     "Delete": "DELETE FROM tbl_klient WHERE id = @Id"
+  },
+  "Equipment": {
+    "GetAll": "SELECT s.*, t.nazwa AS typ_sprzetu_nazwa, t.opis AS typ_sprzetu_opis FROM tbl_sprzet s JOIN tbl_typ_sprzetu t ON s.typ_sprzetu_id = t.id;",
+    "GetById": "SELECT s.*, t.nazwa AS typ_sprzetu_nazwa, t.opis AS typ_sprzetu_opis FROM tbl_sprzet s JOIN tbl_typ_sprzetu t ON s.typ_sprzetu_id = t.id WHERE s.id = @Id;",
+    "Add": "INSERT INTO tbl_sprzet (nazwa, numer_inwentarzowy, data_zakupu, numer_faktury, numer_identyfikacyjny, czy_serwis, czy_w_drodze, data_likwidacji, status, typ_sprzetu_id, cena_za_dzien) VALUES (@Name, @InventoryNumber, @PurchaseDate, @InvoiceNumber, @IdentificationNumber, @IsServiced, @IsInTransit, @DisposalDate, @Status, @EquipmentTypeId, @DailyRentalPrice);",
+    "Update": "UPDATE tbl_sprzet SET nazwa = @Name, numer_inwentarzowy = @InventoryNumber, data_zakupu = @PurchaseDate, numer_faktury = @InvoiceNumber, numer_identyfikacyjny = @IdentificationNumber, czy_serwis = @IsServiced, czy_w_drodze = @IsInTransit, data_likwidacji = @DisposalDate, status = @Status, typ_sprzetu_id = @EquipmentTypeId, cena_za_dzien = @DailyRentalPrice WHERE id = @Id;",
+    "Delete": "DELETE FROM tbl_sprzet WHERE id = @Id;"
   }
 }
