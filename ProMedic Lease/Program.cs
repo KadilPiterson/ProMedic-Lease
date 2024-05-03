@@ -5,6 +5,7 @@ using ProMedic_Lease.DataAccess.Repositories.Interfaces;
 using ProMedic_Lease.Services;
 using ProMedic_Lease.Services.Interfaces;
 using ProMedic_Lease.Utilities;
+using WinFormsApp1;
 
 namespace ProMedic_Lease
 {
@@ -26,7 +27,7 @@ namespace ProMedic_Lease
                 ApplicationConfiguration.Initialize();
 
                 // Resolve the main form with dependencies injected
-                var mainForm = serviceProvider.GetRequiredService<Form1>();
+                var mainForm = serviceProvider.GetRequiredService<FormMain>();
                 Application.Run(mainForm);
             }
         }
@@ -59,7 +60,7 @@ namespace ProMedic_Lease
             services.AddSingleton<DatabaseManager>();
 
             // Assuming Form1 takes IRentalService as a dependency
-            services.AddScoped<Form1>();
+            services.AddScoped<FormMain>();
         }
     }
 }
