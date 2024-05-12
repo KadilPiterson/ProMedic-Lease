@@ -14,86 +14,93 @@ namespace ProMedic_Lease.DataAccess.Repositories
     public class DepartmentRepository : IDepartmentRepository
     {
         private readonly DatabaseManager _databaseManager;
+        private readonly Dictionary<string, string> _queries;
 
         public DepartmentRepository(DatabaseManager databaseManager)
         {
             _databaseManager = databaseManager;
+            _queries = QueryConfig.Instance.Queries["Department"];
         }
 
         public void Add(Department department)
         {
-            string query = "INSERT INTO tbl_dzialy (nazwa) VALUES (@Name);";
-
-            SqlParameter[] parameters = new SqlParameter[]
-            {
-            new SqlParameter("@Name", department.Name)
-            };
-
+            string query = _queries["Add"];
+            SqlParameter[] parameters = BuildParameters(department);
             _databaseManager.ExecuteNonQuery(query, parameters);
+            var cached = Cache.Departments.Get(department.Id);
+            if (cached != null)
+            {
+                Cache.Departments.Remove(cached.Id);
+            }
+            Cache.Departments.Add(department.Id, department);
         }
 
         public Department GetById(long id)
         {
-            string query = "SELECT * FROM tbl_dzialy WHERE id = @Id";
-            SqlParameter[] parameters = new SqlParameter[]
+            var cached = Cache.Departments.Get(id);
+            if (cached != null)
             {
-            new SqlParameter("@Id", id)
-            };
-
-            var dataTable = _databaseManager.ExecuteQuery(query, parameters);
-            if (dataTable.Rows.Count == 0)
-            {
-                return null;
+                Cache.Departments.Remove(cached.Id);
             }
 
-            DataRow row = dataTable.Rows[0];
-            return new Department
-            {
-                Id = Convert.ToInt64(row["id"]),
-                Name = row["nazwa"].ToString()
-            };
+            string query = _queries["GetById"];
+            SqlParameter[] parameters = { new SqlParameter("@Id", id) };
+            var dataTable = _databaseManager.ExecuteQuery(query, parameters);
+            return dataTable.Rows.Count == 0 ? null : MapFromDataRow(dataTable.Rows[0]);
         }
 
         public IEnumerable<Department> GetAll()
         {
-            List<Department> departments = new List<Department>();
-            string query = "SELECT * FROM tbl_dzialy";
-
+            Cache.Departments.Clear();
+            string query = _queries["GetAll"];
             var dataTable = _databaseManager.ExecuteQuery(query);
-            foreach (DataRow row in dataTable.Rows)
-            {
-                departments.Add(new Department
-                {
-                    Id = Convert.ToInt64(row["id"]),
-                    Name = row["nazwa"].ToString()
-                });
-            }
-
-            return departments;
+            return dataTable.AsEnumerable().Select(row => MapFromDataRow(row)).ToList();
         }
 
         public void Update(Department department)
         {
-            string query = "UPDATE tbl_dzialy SET nazwa = @Name WHERE id = @Id;";
-
-            SqlParameter[] parameters = new SqlParameter[]
-            {
-            new SqlParameter("@Id", department.Id),
-            new SqlParameter("@Name", department.Name)
-            };
-
+            string query = _queries["Update"];
+            SqlParameter[] parameters = BuildParameters(department, true);
             _databaseManager.ExecuteNonQuery(query, parameters);
+            Cache.Departments.Update(department.Id, department);
         }
 
         public void Delete(long id)
         {
-            string query = "DELETE FROM tbl_dzialy WHERE id = @Id;";
-            SqlParameter[] parameters = new SqlParameter[]
+            string query = _queries["Delete"];
+            SqlParameter[] parameters = { new SqlParameter("@Id", id) };
+            _databaseManager.ExecuteNonQuery(query, parameters);
+            Cache.Departments.Remove(id);
+        }
+
+        private SqlParameter[] BuildParameters(Department department, bool includeId = false)
+        {
+            var parameters = new List<SqlParameter>
             {
-            new SqlParameter("@Id", id)
+                new SqlParameter("@Name", department.Name)
             };
 
-            _databaseManager.ExecuteNonQuery(query, parameters);
+            if (includeId)
+            {
+                parameters.Add(new SqlParameter("@Id", department.Id));
+            }
+
+            return parameters.ToArray();
+        }
+
+        private Department MapFromDataRow(DataRow row)
+        {
+            long departmentId = Convert.ToInt64(row["id"]);
+            return Cache.Departments.GetOrCreate(departmentId, () => Create(row));
+        }
+
+        private Department Create(DataRow row)
+        {
+            return new Department
+            {
+                Id = Convert.ToInt64(row["id"]),
+                Name = row["nazwa"] as string ?? string.Empty
+            };
         }
     }
 }

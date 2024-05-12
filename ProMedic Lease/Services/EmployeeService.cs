@@ -1,4 +1,5 @@
-﻿using ProMedic_Lease.DataAccess.Repositories.Interfaces;
+﻿using ProMedic_Lease.DataAccess.Repositories;
+using ProMedic_Lease.DataAccess.Repositories.Interfaces;
 using ProMedic_Lease.Models;
 using ProMedic_Lease.Services.Interfaces;
 using System;
@@ -41,6 +42,25 @@ namespace ProMedic_Lease.Services
         public void Delete(long id)
         {
             _employeeRepository.Delete(id);
+        }
+
+        public IEnumerable<Employee> GetAllActive()
+        {
+            return _employeeRepository.GetAll().Where(e => e.IsActive == true).ToList();
+        }
+
+        public IEnumerable<Employee> Search(string searchTerm)
+        {
+            searchTerm = searchTerm?.ToLower() ?? "";
+            return _employeeRepository.GetAll()
+                .Where(e => e.FirstName.ToLower().Contains(searchTerm) ||
+                            e.LastName.ToLower().Contains(searchTerm) ||
+                            e.Email.ToLower().Contains(searchTerm) ||
+                            e.Phone.ToLower().Contains(searchTerm) ||
+                            e.Street.ToLower().Contains(searchTerm) ||      
+                            e.City.ToLower().Contains(searchTerm) ||        
+                            e.PostalCode.ToLower().Contains(searchTerm))
+                .ToList();
         }
     }
 }

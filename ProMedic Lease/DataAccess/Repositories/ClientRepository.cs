@@ -27,32 +27,32 @@ namespace ProMedic_Lease.DataAccess.Repositories
             string query = _queries["Add"];
             SqlParameter[] parameters = BuildParameters(client);
             _databaseManager.ExecuteNonQuery(query, parameters);
-            var cached = Cache.ClientsCache.Get(client.Id);
+            var cached = Cache.Clients.Get(client.Id);
             if (cached != null)
             {
-                Cache.ClientsCache.Remove(cached.Id);
+                Cache.Clients.Remove(cached.Id);
             }
-            Cache.ClientsCache.Add(client.Id, client);
+            Cache.Clients.Add(client.Id, client);
 
         }
 
         public Client GetById(long id)
         {
-            var cached = Cache.ClientsCache.Get(id);
+            var cached = Cache.Clients.Get(id);
             if (cached != null)
             {
-                Cache.ClientsCache.Remove(cached.Id);
+                Cache.Clients.Remove(cached.Id);
             }
 
             string query = _queries["GetById"];
-            SqlParameter[] parameters = { new SqlParameter("@Id", id) };
+            SqlParameter[] parameters = new SqlParameter[] { new SqlParameter("@Id", id) };
             var dataTable = _databaseManager.ExecuteQuery(query, parameters);
             return dataTable.Rows.Count == 0 ? null : MapFromDataRow(dataTable.Rows[0]);
         }
 
         public IEnumerable<Client> GetAll()
         {
-            Cache.ClientsCache.Clear();
+            Cache.Clients.Clear();
             string query = _queries["GetAll"];
             var dataTable = _databaseManager.ExecuteQuery(query);
             return dataTable.AsEnumerable().Select(row => MapFromDataRow(row)).ToList();
@@ -63,7 +63,7 @@ namespace ProMedic_Lease.DataAccess.Repositories
             string query = _queries["Update"];
             SqlParameter[] parameters = BuildParameters(client, true);
             _databaseManager.ExecuteNonQuery(query, parameters);
-            Cache.ClientsCache.Update(client.Id, client);
+            Cache.Clients.Update(client.Id, client);
         }
 
         public void Delete(long id)
@@ -71,7 +71,7 @@ namespace ProMedic_Lease.DataAccess.Repositories
             string query = _queries["Delete"];
             SqlParameter[] parameters = { new SqlParameter("@Id", id) };
             _databaseManager.ExecuteNonQuery(query, parameters);
-            Cache.ClientsCache.Remove(id);
+            Cache.Clients.Remove(id);
         }
 
         private SqlParameter[] BuildParameters(Client client, bool includeId = false)
@@ -87,7 +87,8 @@ namespace ProMedic_Lease.DataAccess.Repositories
                 new SqlParameter("@PostalCode", client.PostalCode),
                 new SqlParameter("@City", client.City),
                 new SqlParameter("@Email", client.Email),
-                new SqlParameter("@Phone", client.Phone)
+                new SqlParameter("@Phone", client.Phone),
+                new SqlParameter("@IsActive", client.IsActive),
             };
 
             if (includeId)
@@ -101,7 +102,7 @@ namespace ProMedic_Lease.DataAccess.Repositories
         private Client MapFromDataRow(DataRow row)
         {
             long clientId = Convert.ToInt64(row["id"]);
-            return Cache.ClientsCache.GetOrCreate(clientId, () => Create(row));
+            return Cache.Clients.GetOrCreate(clientId, () => Create(row));
         }
 
         private Client Create(DataRow row)
@@ -111,14 +112,15 @@ namespace ProMedic_Lease.DataAccess.Repositories
                 Id = Convert.ToInt64(row["id"]),
                 FirstName = row["FirstName"] as string ?? string.Empty,
                 LastName = row["LastName"] as string ?? string.Empty,
-                Pesel = row["PESEL"] as string ?? string.Empty,
-                Street = row["Street"] as string ?? string.Empty,
-                HouseNumber = row["HouseNumber"] as string ?? string.Empty,
-                ApartmentNumber = row["ApartmentNumber"] as string ?? string.Empty,
-                PostalCode = row["PostalCode"] as string ?? string.Empty,
-                City = row["City"] as string ?? string.Empty,
+                IsActive = Convert.ToBoolean(row["IsActive"]),
                 Email = row["Email"] as string ?? string.Empty,
-                Phone = row["Phone"] as string ?? string.Empty
+                Phone = row["Phone"] as string ?? string.Empty,
+                Pesel = row["Pesel"] as string ?? string.Empty,
+                Street = row["Street"] as string ?? string.Empty,
+                HouseNumber = row.Field<int>("HouseNumber"),
+                ApartmentNumber = row.Field<int>("ApartmentNumber"),
+                PostalCode = row["PostalCode"] as string ?? string.Empty,
+                City = row["City"] as string ?? string.Empty
             };
         }
     }

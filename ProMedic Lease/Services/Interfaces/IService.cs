@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProMedic_Lease.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,5 +14,6 @@ namespace ProMedic_Lease.Services.Interfaces
         IEnumerable<T> GetAll();
         void Update(T entity);
         void Delete(long id);
+        IEnumerable<T> Search(string searchTerm);
     }
 }

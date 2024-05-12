@@ -10,5 +10,10 @@ namespace ProMedic_Lease.Models
     {
         public long Id { get; set; }
         public required string Name { get; set; }
+
+        public override string ToString()
+        {
+            return Name; 
+        }
     }
 }

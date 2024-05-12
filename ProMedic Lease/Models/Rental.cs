@@ -15,6 +15,6 @@ namespace ProMedic_Lease.Models
         public required Client Client { get; set; }
         public required Employee Employee { get; set; }
         public string? Comments { get; set; }
-        public int Status { get; set; }
+        public bool IsActive { get; set; }
     }
 }

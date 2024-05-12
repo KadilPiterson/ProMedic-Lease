@@ -9,5 +9,6 @@ namespace ProMedic_Lease.Services.Interfaces
 {
     public interface IClientService : IService<Client>
     {
+        IEnumerable<Client> GetAllActive();
     }
 }

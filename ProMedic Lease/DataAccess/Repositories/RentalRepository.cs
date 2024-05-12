@@ -29,24 +29,24 @@ namespace ProMedic_Lease.DataAccess.Repositories
             string query = _queries["Add"];
             SqlParameter[] parameters = BuildParameters(rental);
             _databaseManager.ExecuteNonQuery(query, parameters);
-            var cached= Cache.RentalsCache.Get(rental.Id);
+            var cached= Cache.Rentals.Get(rental.Id);
             if (cached != null)
             {
-                Cache.RentalsCache.Remove(cached.Id);
+                Cache.Rentals.Remove(cached.Id);
             }
-            Cache.RentalsCache.Add(rental.Id, rental);
+            Cache.Rentals.Add(rental.Id, rental);
         }
 
         public Rental GetById(long id)
         {
-            var cached = Cache.RentalsCache.Get(id);
+            var cached = Cache.Rentals.Get(id);
             if (cached != null)
             {
-                Cache.RentalsCache.Remove(cached.Id);
+                Cache.Rentals.Remove(cached.Id);
             }
 
             string query = _queries["GetById"];
-            SqlParameter[] parameters = new SqlParameter[] { new SqlParameter("@Id", id) };
+            SqlParameter[] parameters = new SqlParameter[] { new SqlParameter("@RentalId", id) };
             var dataTable = _databaseManager.ExecuteQuery(query, parameters);
             return dataTable.Rows.Count == 0 ? null : MapFromDataRow(dataTable.Rows[0]);
         }
@@ -63,15 +63,15 @@ namespace ProMedic_Lease.DataAccess.Repositories
             string query = _queries["Update"];
             SqlParameter[] parameters = BuildParameters(rental, includeId: true);
             _databaseManager.ExecuteNonQuery(query, parameters);
-            Cache.RentalsCache.Update(rental.Id, rental);
+            Cache.Rentals.Update(rental.Id, rental);
         }
 
         public void Delete(long id)
         {
             string query = _queries["Delete"];
-            SqlParameter[] parameters = new SqlParameter[] { new SqlParameter("@Id", id) };
+            SqlParameter[] parameters = new SqlParameter[] { new SqlParameter("@RentalId", id) };
             _databaseManager.ExecuteNonQuery(query, parameters);
-            Cache.RentalsCache.Remove(id);
+            Cache.Rentals.Remove(id);
         }
 
         private SqlParameter[] BuildParameters(Rental rental, bool includeId = false)
@@ -83,13 +83,13 @@ namespace ProMedic_Lease.DataAccess.Repositories
                 new SqlParameter("@EmployeeId", rental.Employee.Id),
                 new SqlParameter("@StartDate", rental.StartDate),
                 new SqlParameter("@EndDate", rental.EndDate ?? (object)DBNull.Value),
-                new SqlParameter("@Status", rental.Status),
+                new SqlParameter("@Status", rental.IsActive),
                 new SqlParameter("@Comments", rental.Comments ?? (object)DBNull.Value)
             };
 
             if (includeId)
             {
-                parameters.Add(new SqlParameter("@Id", rental.Id));
+                parameters.Add(new SqlParameter("@RentalId", rental.Id));
             }
 
             return parameters.ToArray();
@@ -97,89 +97,89 @@ namespace ProMedic_Lease.DataAccess.Repositories
 
         private Rental MapFromDataRow(DataRow row)
         {
-            long id = Convert.ToInt64(row["id"]);
-            return Cache.RentalsCache.GetOrCreate(id, () => Create(row));
+            long id = Convert.ToInt64(row["RentalId"]);
+            return Cache.Rentals.GetOrCreate(id, () => Create(row));
         }
 
         private Rental Create(DataRow row)
         {
-            var equipment = Cache.EquipmentsCache.GetOrCreate(Convert.ToInt64(row["sprzet_id"]), () => new Equipment
+            var equipment = Cache.Equipments.GetOrCreate(Convert.ToInt64(row["EquipmentId"]), () => new Equipment
             {
-                Id = Convert.ToInt64(row["sprzet_id"]),
-                Name = row["sprzet_nazwa"] as string ?? string.Empty,
-                InventoryNumber = row["numer_inwentarzowy"] as string ?? string.Empty,
-                PurchaseDate = Convert.ToDateTime(row["data_zakupu"]),
-                InvoiceNumber = row["numer_faktury"] as string ?? string.Empty,
-                IdentificationNumber = row["numer_identyfikacyjny"] as string ?? string.Empty,
-                IsServiced = Convert.ToBoolean(row["czy_serwis"]),
-                IsInTransit = Convert.ToBoolean(row["czy_w_drodze"]),
-                DisposalDate = row.IsNull("data_likwidacji") ? null : Convert.ToDateTime(row["data_likwidacji"]),
-                Status = Convert.ToInt32(row["sprzet_status"]),
-                DailyRentalPrice = Convert.ToDecimal(row["cena_za_dzien"]),
-                EquipmentType = Cache.EquipmentTypesCache.GetOrCreate(Convert.ToInt64(row["typ_id"]), () => new EquipmentType
+                Id = Convert.ToInt64(row["EquipmentId"]),
+                Name = row["EquipmentName"] as string ?? string.Empty,
+                InventoryNumber = row["InventoryNumber"] as string ?? string.Empty,
+                PurchaseDate = Convert.ToDateTime(row["EquipmentPurchaseDate"]),
+                InvoiceNumber = row["EquipmentInvoiceNumber"] as string ?? string.Empty,
+                IdentificationNumber = row["EquipmentIdentificationNumber"] as string ?? string.Empty,
+                IsServiced = Convert.ToBoolean(row["EquipmentIsServiced"]),
+                IsInTransit = Convert.ToBoolean(row["EquipmentIsInTransit"]),
+                DisposalDate = row.IsNull("EquipmentDisposalDate") ? null : (DateTime?)Convert.ToDateTime(row["EquipmentDisposalDate"]),
+                DailyRentalPrice = Convert.ToDecimal(row["EquipmentDailyRentalPrice"]),
+                EquipmentType = Cache.EquipmentTypes.GetOrCreate(Convert.ToInt64(row["EquipmentTypeId"]), () => new EquipmentType
                 {
-                    Id = Convert.ToInt64(row["typ_id"]),
-                    Name = row["typ_nazwa"] as string ?? string.Empty,
-                    Description = row["typ_opis"] as string ?? string.Empty
+                    Id = Convert.ToInt64(row["EquipmentTypeId"]),
+                    Name = row["EquipmentTypeName"] as string ?? string.Empty,
+                    Description = row["EquipmentTypeDescription"] as string ?? string.Empty
                 })
             });
 
-            var client = Cache.ClientsCache.GetOrCreate(Convert.ToInt64(row["klient_id"]), () => new Client
+            var client = Cache.Clients.GetOrCreate(Convert.ToInt64(row["ClientId"]), () => new Client
             {
-                Id = Convert.ToInt64(row["klient_id"]),
-                FirstName = row["klient_imie"] as string ?? string.Empty,
-                LastName = row["klient_nazwisko"] as string ?? string.Empty,
-                Pesel = row["klient_pesel"] as string ?? string.Empty,
-                Street = row["klient_ulica"] as string ?? string.Empty,
-                HouseNumber = row["klient_nr_domu"] as string ?? string.Empty,
-                ApartmentNumber = row["klient_lokal"] as string ?? string.Empty,
-                PostalCode = row["klient_kod_pocztowy"] as string ?? string.Empty,
-                City = row["klient_miejscowosc"] as string ?? string.Empty,
-                Email = row["klient_email"] as string ?? string.Empty,
-                Phone = row["numer_telefonu"] as string ?? string.Empty
+                Id = Convert.ToInt64(row["ClientId"]),
+                FirstName = row["ClientFirstName"] as string ?? string.Empty,
+                LastName = row["ClientLastName"] as string ?? string.Empty,
+                Pesel = row["ClientPesel"] as string ?? string.Empty,
+                Street = row["ClientStreet"] as string ?? string.Empty,
+                HouseNumber = Convert.ToInt32(row["ClientHouseNumber"]),
+                ApartmentNumber = Convert.ToInt32(row["ClientApartmentNumber"]),
+                PostalCode = row["ClientPostalCode"] as string ?? string.Empty,
+                City = row["ClientCity"] as string ?? string.Empty,
+                Email = row["ClientEmail"] as string ?? string.Empty,
+                Phone = row["ClientPhoneNumber"] as string ?? string.Empty,
+                IsActive = Convert.ToBoolean(row["ClientActive"])
             });
 
-            var employee = Cache.EmployeesCache.GetOrCreate(Convert.ToInt64(row["pracownik_id"]), () => new Employee
+            var employee = Cache.Employees.GetOrCreate(Convert.ToInt64(row["EmployeeId"]), () => new Employee
             {
-                Id = Convert.ToInt64(row["pracownik_id"]),
-                FirstName = row["pracownik_imie"] as string ?? string.Empty,
-                LastName = row["pracownik_nazwisko"] as string ?? string.Empty,
-                Username = row["username"] as string ?? string.Empty,
-                Email = row["pracownik_email"] as string ?? string.Empty,
-                Phone = row["pracownik_telefon"] as string ?? string.Empty,
-                Pesel = row["pracownik_pesel"] as string ?? string.Empty,
-                Street = row["pracownik_ulica"] as string ?? string.Empty,
-                HouseNumber = row["pracownik_nr_domu"] as string ?? string.Empty,
-                ApartmentNumber = row["pracownik_lokal"] as string ?? string.Empty,
-                PostalCode = row["pracownik_kod_pocztowy"] as string ?? string.Empty,
-                City = row["pracownik_miejscowosc"] as string ?? string.Empty,
-                EmploymentDate = Convert.ToDateTime(row["data_zatrudnienia"]),
-                TerminationDate = row.IsNull("data_zwolnienia") ? null : Convert.ToDateTime(row["data_zwolnienia"]),
-                Salary = Convert.ToDecimal(row["zarobek"]),
-                IsActive = Convert.ToBoolean(row["active"]),
-                Department = Cache.DepartmentsCache.GetOrCreate(Convert.ToInt64(row["dzial_id"]), () => new Department
+                Id = Convert.ToInt64(row["EmployeeId"]),
+                FirstName = row["EmployeeFirstName"] as string ?? string.Empty,
+                LastName = row["EmployeeLastName"] as string ?? string.Empty,
+                Email = row["EmployeeEmail"] as string ?? string.Empty,
+                Phone = row["EmployeePhone"] as string ?? string.Empty,
+                Pesel = row["EmployeePesel"] as string ?? string.Empty,
+                Street = row["EmployeeStreet"] as string ?? string.Empty,
+                HouseNumber = Convert.ToInt32(row["EmployeeHouseNumber"]),
+                ApartmentNumber = Convert.ToInt32(row["EmployeeApartmentNumber"]),
+                PostalCode = row["EmployeePostalCode"] as string ?? string.Empty,
+                City = row["EmployeeCity"] as string ?? string.Empty,
+                EmploymentDate = Convert.ToDateTime(row["EmployeeEmploymentDate"]),
+                TerminationDate = row.IsNull("EmployeeTerminationDate") ? null : (DateTime?)Convert.ToDateTime(row["EmployeeTerminationDate"]),
+                Salary = Convert.ToDecimal(row["EmployeeSalary"]),
+                IsActive = Convert.ToBoolean(row["EmployeeActive"]),
+                Department = Cache.Departments.GetOrCreate(Convert.ToInt64(row["DepartmentId"]), () => new Department
                 {
-                    Id = Convert.ToInt64(row["dzial_id"]),
-                    Name = row["dzial_nazwa"] as string ?? string.Empty
+                    Id = Convert.ToInt64(row["DepartmentId"]),
+                    Name = row["DepartmentName"] as string ?? string.Empty
                 }),
-                Position = Cache.PositionsCache.GetOrCreate(Convert.ToInt64(row["stanowisko_id"]), () => new Position
+                Position = Cache.Positions.GetOrCreate(Convert.ToInt64(row["PositionId"]), () => new Position
                 {
-                    Id = Convert.ToInt64(row["stanowisko_id"]),
-                    Name = row["stanowisko_nazwa"] as string ?? string.Empty
+                    Id = Convert.ToInt64(row["PositionId"]),
+                    Name = row["PositionName"] as string ?? string.Empty
                 })
             });
 
             return new Rental
             {
-                Id = Convert.ToInt64(row["id"]),
+                Id = Convert.ToInt64(row["RentalId"]),
                 Equipment = equipment,
-                StartDate = Convert.ToDateTime(row["data_start"]),
-                EndDate = row.IsNull("data_koniec") ? null : Convert.ToDateTime(row["data_koniec"]),
+                StartDate = Convert.ToDateTime(row["StartDate"]),
+                EndDate = row.IsNull("EndDate") ? null : (DateTime?)Convert.ToDateTime(row["EndDate"]),
                 Client = client,
                 Employee = employee,
-                Comments = row.IsNull("uwagi") ? null : row["uwagi"] as string,
-                Status = Convert.ToInt32(row["status"])
+                Comments = row.IsNull("Comments") ? null : row["Comments"] as string,
+                IsActive = Convert.ToBoolean(row["Status"])
             };
         }
+
     }
 }

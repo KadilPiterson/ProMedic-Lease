@@ -42,5 +42,23 @@ namespace ProMedic_Lease.Services
         {
             _rentalRepository.Delete(id);
         }
+
+        public IEnumerable<Rental> Search(string searchTerm)
+        {
+            searchTerm = searchTerm?.ToLower() ?? "";
+            return _rentalRepository.GetAll()
+                .Where(r =>
+                    (r.Equipment.Name != null && r.Equipment.Name.ToLower().Contains(searchTerm)) ||
+                    (r.Client.FirstName != null && r.Client.FirstName.ToLower().Contains(searchTerm)) ||
+                    (r.Client.LastName != null && r.Client.LastName.ToLower().Contains(searchTerm)) ||
+                    (r.Employee.FirstName != null && r.Employee.FirstName.ToLower().Contains(searchTerm)) ||
+                    (r.Employee.LastName != null && r.Employee.LastName.ToLower().Contains(searchTerm)) ||
+                    (r.Comments != null && r.Comments.ToLower().Contains(searchTerm)) ||
+                    r.StartDate.ToString("d").ToLower().Contains(searchTerm) ||
+                    (r.EndDate.HasValue && r.EndDate.Value.ToString("d").ToLower().Contains(searchTerm)) ||
+                    r.IsActive.ToString().ToLower().Contains(searchTerm)
+                )
+                .ToList();
+        }
     }
 }

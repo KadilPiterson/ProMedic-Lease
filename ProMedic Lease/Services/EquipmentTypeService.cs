@@ -1,4 +1,5 @@
-﻿using ProMedic_Lease.DataAccess.Repositories.Interfaces;
+﻿using ProMedic_Lease.DataAccess.Repositories;
+using ProMedic_Lease.DataAccess.Repositories.Interfaces;
 using ProMedic_Lease.Models;
 using ProMedic_Lease.Services.Interfaces;
 using System;
@@ -41,6 +42,29 @@ namespace ProMedic_Lease.Services
         public void Delete(long id)
         {
             _equipmentTypeRepository.Delete(id);
+        }
+
+        public IEnumerable<EquipmentType> Search(string searchTerm)
+        {
+            searchTerm = searchTerm?.ToLower() ?? "";
+            return _equipmentTypeRepository.GetAll()
+                .Where(e => e.Name.ToLower().Contains(searchTerm))
+                .ToList();
+        }
+
+        public EquipmentType PrepareForUpdate(EquipmentType entity, string name)
+        {
+            entity.Name = name;
+
+            return entity;
+        }
+
+        public EquipmentType CreateFormData(string name)
+        {
+            return new EquipmentType
+            {
+                Name = name
+            };
         }
     }
 }

@@ -27,20 +27,20 @@ namespace ProMedic_Lease.DataAccess.Repositories
             string query = _queries["Add"];
             SqlParameter[] parameters = BuildParameters(equipment);
             _databaseManager.ExecuteNonQuery(query, parameters);
-            var cached = Cache.EquipmentsCache.Get(equipment.Id);
+            var cached = Cache.Equipments.Get(equipment.Id);
             if (cached != null)
             {
-                Cache.EquipmentsCache.Remove(cached.Id);
+                Cache.Equipments.Remove(cached.Id);
             }
-            Cache.EquipmentsCache.Add(cached.Id, cached);
+            Cache.Equipments.Add(equipment.Id, equipment);
         }
 
         public Equipment GetById(long id)
         {
-            var cached = Cache.EquipmentsCache.Get(id);
+            var cached = Cache.Equipments.Get(id);
             if (cached != null)
             {
-                Cache.EquipmentsCache.Remove(cached.Id);
+                Cache.Equipments.Remove(cached.Id);
             }
 
             string query = _queries["GetById"];
@@ -61,7 +61,7 @@ namespace ProMedic_Lease.DataAccess.Repositories
             string query = _queries["Update"];
             SqlParameter[] parameters = BuildParameters(equipment);
             _databaseManager.ExecuteNonQuery(query, parameters);
-            Cache.EquipmentsCache.Update(equipment.Id, equipment);
+            Cache.Equipments.Update(equipment.Id, equipment);
         }
 
         public void Delete(long id)
@@ -69,7 +69,7 @@ namespace ProMedic_Lease.DataAccess.Repositories
             string query = _queries["Delete"];
             SqlParameter[] parameters = { new SqlParameter("@Id", id) };
             _databaseManager.ExecuteNonQuery(query, parameters);
-            Cache.EquipmentsCache.Remove(id);
+            Cache.Equipments.Remove(id);
         }
 
         private SqlParameter[] BuildParameters(Equipment equipment)
@@ -85,7 +85,7 @@ namespace ProMedic_Lease.DataAccess.Repositories
                 new SqlParameter("@IsServiced", equipment.IsServiced),
                 new SqlParameter("@IsInTransit", equipment.IsInTransit),
                 new SqlParameter("@DisposalDate", (object)equipment.DisposalDate ?? DBNull.Value),
-                new SqlParameter("@Status", equipment.Status),
+                new SqlParameter("@Status", equipment.IsActive),
                 new SqlParameter("@EquipmentTypeId", equipment.EquipmentType.Id),
                 new SqlParameter("@DailyRentalPrice", equipment.DailyRentalPrice)
             };
@@ -93,8 +93,8 @@ namespace ProMedic_Lease.DataAccess.Repositories
 
         private Equipment MapFromDataRow(DataRow row)
         {
-            long id = Convert.ToInt64(row["id"]);
-            return Cache.EquipmentsCache.GetOrCreate(id, () => Create(row));
+            long id = Convert.ToInt64(row["EquipmentId"]);
+            return Cache.Equipments.GetOrCreate(id, () => Create(row));
         }
 
 
@@ -102,23 +102,23 @@ namespace ProMedic_Lease.DataAccess.Repositories
         {
             return new Equipment
             {
-                Id = Convert.ToInt64(row["id"]),
-                Name = row["nazwa"] as string ?? string.Empty,
-                InventoryNumber = row["numer_inwentarzowy"] as string ?? string.Empty,
-                PurchaseDate = Convert.ToDateTime(row["data_zakupu"]),
-                InvoiceNumber = row["numer_faktury"] as string ?? string.Empty,
-                IdentificationNumber = row["numer_identyfikacyjny"] as string ?? string.Empty,
-                IsServiced = Convert.ToBoolean(row["czy_serwis"]),
-                IsInTransit = Convert.ToBoolean(row["czy_w_drodze"]),
-                DisposalDate = row["data_likwidacji"] == DBNull.Value ? null : Convert.ToDateTime(row["data_likwidacji"]),
-                Status = Convert.ToInt32(row["status"]),
-                EquipmentType = Cache.EquipmentTypesCache.GetOrCreate(Convert.ToInt64(row["typ_sprzetu_id"]), () => new EquipmentType
+                Id = Convert.ToInt64(row["EquipmentId"]),
+                Name = Convert.ToString(row["EquipmentName"]) ?? string.Empty,
+                InventoryNumber = Convert.ToString(row["InventoryNumber"]) ?? string.Empty,
+                PurchaseDate = Convert.ToDateTime(row["PurchaseDate"]),
+                InvoiceNumber = Convert.ToString(row["InvoiceNumber"]) ?? string.Empty,
+                IdentificationNumber = Convert.ToString(row["IdentificationNumber"]) ?? string.Empty,
+                IsServiced = Convert.ToBoolean(row["IsServiced"]),
+                IsInTransit = Convert.ToBoolean(row["IsInTransit"]),
+                DisposalDate = row["DisposalDate"] == DBNull.Value ? null : Convert.ToDateTime(row["DisposalDate"]),
+                IsActive = Convert.ToBoolean(row["EquipmentStatus"]),
+                EquipmentType = Cache.EquipmentTypes.GetOrCreate(Convert.ToInt64(row["TypeId"]), () => new EquipmentType
                 {
-                    Id = Convert.ToInt64(row["typ_sprzetu_id"]),
-                    Name = row["typ_sprzetu_nazwa"] as string ?? string.Empty,
-                    Description = row["typ_sprzetu_opis"] as string ?? string.Empty
+                    Id = Convert.ToInt64(row["TypeId"]),
+                    Name = Convert.ToString(row["TypeName"]) ?? string.Empty,
+                    Description = Convert.ToString(row["TypeDescription"]) ?? string.Empty
                 }),
-                DailyRentalPrice = Convert.ToDecimal(row["cena_za_dzien"])
+                DailyRentalPrice = Convert.ToDecimal(row["DailyRentalPrice"])
             };
         }
     }

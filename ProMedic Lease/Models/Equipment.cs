@@ -17,8 +17,13 @@ namespace ProMedic_Lease.Models
         public bool IsServiced { get; set; }
         public bool IsInTransit { get; set; }
         public DateTime? DisposalDate { get; set; }
-        public int Status { get; set; }
+        public bool IsActive { get; set; }
         public required EquipmentType EquipmentType { get; set; }
         public required decimal DailyRentalPrice { get; set; }
+
+        public override string ToString()
+        {
+            return Name + " " + InventoryNumber;
+        }
     }
 }

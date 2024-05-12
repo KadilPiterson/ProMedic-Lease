@@ -25,20 +25,20 @@ namespace ProMedic_Lease.DataAccess.Repositories
             string query = _queries["Add"];
             SqlParameter[] parameters = BuildParameters(employee);
             _databaseManager.ExecuteNonQuery(query, parameters);
-            var cached = Cache.EmployeesCache.Get(employee.Id);
+            var cached = Cache.Employees.Get(employee.Id);
             if (cached != null)
             {
-                Cache.EmployeesCache.Remove(cached.Id);
+                Cache.Employees.Remove(cached.Id);
             }
-            Cache.EmployeesCache.Add(employee.Id, employee);
+            Cache.Employees.Add(employee.Id, employee);
         }
 
         public Employee GetById(long id)
         {
-            var cached = Cache.EmployeesCache.Get(id);
+            var cached = Cache.Employees.Get(id);
             if (cached != null)
             {
-                Cache.EmployeesCache.Remove(cached.Id);
+                Cache.Employees.Remove(cached.Id);
             }
 
             string query = _queries["GetById"];
@@ -49,7 +49,7 @@ namespace ProMedic_Lease.DataAccess.Repositories
 
         public IEnumerable<Employee> GetAll()
         {
-            Cache.EmployeesCache.Clear();
+            Cache.Employees.Clear();
             string query = _queries["GetAll"];
             var dataTable = _databaseManager.ExecuteQuery(query);
             return dataTable.AsEnumerable().Select(row => MapFromDataRow(row)).ToList();
@@ -60,7 +60,7 @@ namespace ProMedic_Lease.DataAccess.Repositories
             string query = _queries["Update"];
             SqlParameter[] parameters = BuildParameters(employee, includeId: true);
             _databaseManager.ExecuteNonQuery(query, parameters);
-            Cache.EmployeesCache.Update(employee.Id, employee);
+            Cache.Employees.Update(employee.Id, employee);
         }
 
         public void Delete(long id)
@@ -68,7 +68,7 @@ namespace ProMedic_Lease.DataAccess.Repositories
             string query = _queries["Delete"];
             SqlParameter[] parameters = new SqlParameter[] { new SqlParameter("@Id", id) };
             _databaseManager.ExecuteNonQuery(query, parameters);
-            Cache.EmployeesCache.Remove(id);
+            Cache.Employees.Remove(id);
         }
 
         private SqlParameter[] BuildParameters(Employee employee, bool includeId = false)
@@ -77,11 +77,6 @@ namespace ProMedic_Lease.DataAccess.Repositories
             {
                 new SqlParameter("@FirstName", employee.FirstName),
                 new SqlParameter("@LastName", employee.LastName),
-                new SqlParameter("@Username", employee.Username),
-                new SqlParameter("@PasswordSalt", employee.PasswordSalt),
-                new SqlParameter("@PasswordHash", employee.PasswordHash),
-                new SqlParameter("@Role", employee.Role),
-                new SqlParameter("@ActivationCode", employee.ActivationCode),
                 new SqlParameter("@IsActive", employee.IsActive),
                 new SqlParameter("@Email", employee.Email),
                 new SqlParameter("@Phone", employee.Phone),
@@ -109,7 +104,7 @@ namespace ProMedic_Lease.DataAccess.Repositories
         private Employee MapFromDataRow(DataRow row)
         {
             long employeeId = Convert.ToInt64(row["id"]);
-            return Cache.EmployeesCache.GetOrCreate(employeeId, () => Create(row));
+            return Cache.Employees.GetOrCreate(employeeId, () => Create(row));
         }
 
         private Employee Create(DataRow row)
@@ -119,29 +114,24 @@ namespace ProMedic_Lease.DataAccess.Repositories
                 Id = Convert.ToInt64(row["id"]),
                 FirstName = row["FirstName"] as string ?? string.Empty,
                 LastName = row["LastName"] as string ?? string.Empty,
-                Username = row["Username"] as string ?? string.Empty,
-                PasswordSalt = row["PasswordSalt"] as string ?? string.Empty,
-                PasswordHash = row["PasswordHash"] as string ?? string.Empty,
-                Role = row["Role"] as string ?? string.Empty,
-                ActivationCode = row["ActivationCode"] as string ?? string.Empty,
                 IsActive = Convert.ToBoolean(row["IsActive"]),
                 Email = row["Email"] as string ?? string.Empty,
                 Phone = row["Phone"] as string ?? string.Empty,
                 Pesel = row["Pesel"] as string ?? string.Empty,
                 Street = row["Street"] as string ?? string.Empty,
-                HouseNumber = row["HouseNumber"] as string ?? string.Empty,
-                ApartmentNumber = row["ApartmentNumber"] as string ?? string.Empty,
+                HouseNumber = row.Field<int>("HouseNumber"),
+                ApartmentNumber = row.Field<int>("ApartmentNumber"),
                 PostalCode = row["PostalCode"] as string ?? string.Empty,
                 City = row["City"] as string ?? string.Empty,
                 EmploymentDate = Convert.ToDateTime(row["EmploymentDate"]),
                 TerminationDate = row.IsNull("TerminationDate") ? (DateTime?)null : Convert.ToDateTime(row["TerminationDate"]),
                 Salary = Convert.ToDecimal(row["Salary"]),
-                Department = Cache.DepartmentsCache.GetOrCreate(Convert.ToInt64(row["DepartmentId"]), () => new Department
+                Department = Cache.Departments.GetOrCreate(Convert.ToInt64(row["DepartmentId"]), () => new Department
                 {
                     Id = Convert.ToInt64(row["DepartmentId"]),
                     Name = row["DepartmentName"] as string ?? string.Empty
                 }),
-                Position = Cache.PositionsCache.GetOrCreate(Convert.ToInt64(row["PositionId"]), () => new Position
+                Position = Cache.Positions.GetOrCreate(Convert.ToInt64(row["PositionId"]), () => new Position
                 {
                     Id = Convert.ToInt64(row["PositionId"]),
                     Name = row["PositionName"] as string ?? string.Empty

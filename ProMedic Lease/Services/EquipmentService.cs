@@ -1,4 +1,5 @@
-﻿using ProMedic_Lease.DataAccess.Repositories.Interfaces;
+﻿using ProMedic_Lease.DataAccess.Repositories;
+using ProMedic_Lease.DataAccess.Repositories.Interfaces;
 using ProMedic_Lease.Models;
 using ProMedic_Lease.Services.Interfaces;
 using System;
@@ -42,5 +43,25 @@ namespace ProMedic_Lease.Services
         {
             _equipmentRepository.Delete(id);
         }
+
+        public IEnumerable<Equipment> GetAllActive()
+        {
+            return _equipmentRepository.GetAll().Where(e => e.IsActive == true && e.IsServiced == false).ToList();
+        }
+
+        public IEnumerable<Equipment> Search(string searchTerm)
+        {
+            searchTerm = searchTerm?.ToLower() ?? "";
+            return _equipmentRepository.GetAll()
+                .Where(e =>
+                    e.Name.ToLower().Contains(searchTerm) ||
+                    e.InventoryNumber.ToLower().Contains(searchTerm) ||
+                    e.InvoiceNumber.ToLower().Contains(searchTerm) ||
+                    e.IdentificationNumber.ToLower().Contains(searchTerm) ||
+                    (e.EquipmentType != null && e.EquipmentType.Name.ToLower().Contains(searchTerm))
+                )
+                .ToList();
+        }
+
     }
 }

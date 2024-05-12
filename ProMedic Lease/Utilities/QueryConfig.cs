@@ -1,9 +1,7 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace ProMedic_Lease.Utilities
 {
@@ -15,10 +13,14 @@ namespace ProMedic_Lease.Utilities
 
         private QueryConfig()
         {
-            var queryFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "queries.json");
+            var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            var projectDirectory = Directory.GetParent(baseDirectory).Parent.Parent.Parent.FullName;
+            var queryFilePath = Path.Combine(projectDirectory, "Resources", "queries.json");
+
             var jsonData = File.ReadAllText(queryFilePath);
             Queries = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(jsonData);
         }
+
 
         public static QueryConfig Instance
         {
