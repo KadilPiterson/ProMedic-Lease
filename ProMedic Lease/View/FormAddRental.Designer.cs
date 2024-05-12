@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormAddRental));
             kryptonLabel4 = new Krypton.Toolkit.KryptonLabel();
             cmbEmployee = new Krypton.Toolkit.KryptonComboBox();
             kryptonLabel11 = new Krypton.Toolkit.KryptonLabel();
@@ -240,6 +241,7 @@
             Controls.Add(cmbClient);
             Controls.Add(cobEquipment);
             Controls.Add(cmbEquipment);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(3, 2, 3, 2);
             Name = "FormAddRental";
             StartPosition = FormStartPosition.CenterScreen;

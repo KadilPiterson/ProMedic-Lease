@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormAddMaintenanceHistory));
             kryptonLabel2 = new Krypton.Toolkit.KryptonLabel();
             cmbEmployee = new Krypton.Toolkit.KryptonComboBox();
             kryptonLabel13 = new Krypton.Toolkit.KryptonLabel();
@@ -239,6 +240,7 @@
             Controls.Add(cmbEmployee);
             Controls.Add(kryptonLabel13);
             Controls.Add(cmbEquipment);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(3, 2, 3, 2);
             Name = "FormAddMaintenanceHistory";
             StartPosition = FormStartPosition.CenterScreen;

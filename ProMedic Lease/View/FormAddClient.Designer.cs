@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormAddClient));
             txtPostalCode = new Krypton.Toolkit.KryptonTextBox();
             txtStreet = new Krypton.Toolkit.KryptonTextBox();
             btnSave = new Krypton.Toolkit.KryptonButton();
@@ -391,6 +392,7 @@
             Controls.Add(txtLastName);
             Controls.Add(kryptonLabel1);
             Controls.Add(txtFirstName);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(3, 2, 3, 2);
             Name = "FormAddClient";
             ResumeLayout(false);

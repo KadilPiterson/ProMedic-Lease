@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormAddEquipment));
             chkIsInTransit = new Krypton.Toolkit.KryptonCheckBox();
             kryptonLabel4 = new Krypton.Toolkit.KryptonLabel();
             txtIdentificationNumber = new Krypton.Toolkit.KryptonTextBox();
@@ -62,7 +63,7 @@
             // 
             // kryptonLabel4
             // 
-            kryptonLabel4.Location = new Point(31, 136);
+            kryptonLabel4.Location = new Point(20, 136);
             kryptonLabel4.Margin = new Padding(3, 2, 3, 2);
             kryptonLabel4.Name = "kryptonLabel4";
             kryptonLabel4.Size = new Size(72, 18);
@@ -74,10 +75,10 @@
             // 
             // txtIdentificationNumber
             // 
-            txtIdentificationNumber.Location = new Point(170, 128);
+            txtIdentificationNumber.Location = new Point(159, 128);
             txtIdentificationNumber.Margin = new Padding(3, 2, 3, 2);
             txtIdentificationNumber.Name = "txtIdentificationNumber";
-            txtIdentificationNumber.Size = new Size(246, 26);
+            txtIdentificationNumber.Size = new Size(279, 26);
             txtIdentificationNumber.StateCommon.Back.Color1 = Color.White;
             txtIdentificationNumber.StateCommon.Border.DrawBorders = Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom | Krypton.Toolkit.PaletteDrawBorders.Left | Krypton.Toolkit.PaletteDrawBorders.Right;
             txtIdentificationNumber.StateCommon.Border.GraphicsHint = Krypton.Toolkit.PaletteGraphicsHint.AntiAlias;
@@ -88,7 +89,7 @@
             // 
             // kryptonLabel3
             // 
-            kryptonLabel3.Location = new Point(34, 200);
+            kryptonLabel3.Location = new Point(23, 200);
             kryptonLabel3.Margin = new Padding(3, 2, 3, 2);
             kryptonLabel3.Name = "kryptonLabel3";
             kryptonLabel3.Size = new Size(109, 18);
@@ -100,7 +101,7 @@
             // 
             // kryptonLabel2
             // 
-            kryptonLabel2.Location = new Point(35, 43);
+            kryptonLabel2.Location = new Point(24, 43);
             kryptonLabel2.Margin = new Padding(3, 2, 3, 2);
             kryptonLabel2.Name = "kryptonLabel2";
             kryptonLabel2.Size = new Size(53, 18);
@@ -112,10 +113,10 @@
             // 
             // txtName
             // 
-            txtName.Location = new Point(171, 35);
+            txtName.Location = new Point(160, 35);
             txtName.Margin = new Padding(3, 2, 3, 2);
             txtName.Name = "txtName";
-            txtName.Size = new Size(246, 26);
+            txtName.Size = new Size(278, 26);
             txtName.StateCommon.Back.Color1 = Color.White;
             txtName.StateCommon.Border.DrawBorders = Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom | Krypton.Toolkit.PaletteDrawBorders.Left | Krypton.Toolkit.PaletteDrawBorders.Right;
             txtName.StateCommon.Border.GraphicsHint = Krypton.Toolkit.PaletteGraphicsHint.AntiAlias;
@@ -126,7 +127,7 @@
             // 
             // kryptonLabel15
             // 
-            kryptonLabel15.Location = new Point(32, 234);
+            kryptonLabel15.Location = new Point(21, 234);
             kryptonLabel15.Margin = new Padding(3, 2, 3, 2);
             kryptonLabel15.Name = "kryptonLabel15";
             kryptonLabel15.Size = new Size(130, 18);
@@ -139,12 +140,12 @@
             // nudDailyRentalPrice
             // 
             nudDailyRentalPrice.Increment = new decimal(new int[] { 1, 0, 0, 0 });
-            nudDailyRentalPrice.Location = new Point(171, 222);
+            nudDailyRentalPrice.Location = new Point(160, 222);
             nudDailyRentalPrice.Margin = new Padding(3, 2, 3, 2);
             nudDailyRentalPrice.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
             nudDailyRentalPrice.Minimum = new decimal(new int[] { 0, 0, 0, 0 });
             nudDailyRentalPrice.Name = "nudDailyRentalPrice";
-            nudDailyRentalPrice.Size = new Size(246, 30);
+            nudDailyRentalPrice.Size = new Size(278, 30);
             nudDailyRentalPrice.StateCommon.Border.DrawBorders = Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom | Krypton.Toolkit.PaletteDrawBorders.Left | Krypton.Toolkit.PaletteDrawBorders.Right;
             nudDailyRentalPrice.StateCommon.Border.Rounding = 12.5F;
             nudDailyRentalPrice.StateCommon.Border.Width = 1;
@@ -153,7 +154,7 @@
             // 
             // kryptonLabel13
             // 
-            kryptonLabel13.Location = new Point(31, 106);
+            kryptonLabel13.Location = new Point(20, 106);
             kryptonLabel13.Margin = new Padding(3, 2, 3, 2);
             kryptonLabel13.Name = "kryptonLabel13";
             kryptonLabel13.Size = new Size(81, 18);
@@ -167,10 +168,10 @@
             // 
             cmbEquipmentType.DropDownWidth = 151;
             cmbEquipmentType.IntegralHeight = false;
-            cmbEquipmentType.Location = new Point(170, 95);
+            cmbEquipmentType.Location = new Point(159, 95);
             cmbEquipmentType.Margin = new Padding(3, 2, 3, 2);
             cmbEquipmentType.Name = "cmbEquipmentType";
-            cmbEquipmentType.Size = new Size(246, 29);
+            cmbEquipmentType.Size = new Size(279, 29);
             cmbEquipmentType.StateCommon.ComboBox.Border.DrawBorders = Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom | Krypton.Toolkit.PaletteDrawBorders.Left | Krypton.Toolkit.PaletteDrawBorders.Right;
             cmbEquipmentType.StateCommon.ComboBox.Border.Rounding = 12.5F;
             cmbEquipmentType.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
@@ -180,7 +181,7 @@
             // 
             // kryptonLabel11
             // 
-            kryptonLabel11.Location = new Point(31, 166);
+            kryptonLabel11.Location = new Point(20, 166);
             kryptonLabel11.Margin = new Padding(3, 2, 3, 2);
             kryptonLabel11.Name = "kryptonLabel11";
             kryptonLabel11.Size = new Size(86, 18);
@@ -192,10 +193,10 @@
             // 
             // dtpPurchaseDate
             // 
-            dtpPurchaseDate.Location = new Point(170, 158);
+            dtpPurchaseDate.Location = new Point(159, 158);
             dtpPurchaseDate.Margin = new Padding(3, 2, 3, 2);
             dtpPurchaseDate.Name = "dtpPurchaseDate";
-            dtpPurchaseDate.Size = new Size(246, 26);
+            dtpPurchaseDate.Size = new Size(279, 26);
             dtpPurchaseDate.StateCommon.Border.DrawBorders = Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom | Krypton.Toolkit.PaletteDrawBorders.Left | Krypton.Toolkit.PaletteDrawBorders.Right;
             dtpPurchaseDate.StateCommon.Border.Rounding = 12.5F;
             dtpPurchaseDate.StateCommon.Content.Font = new Font("Microsoft Sans Serif", 7.8F, FontStyle.Regular, GraphicsUnit.Point, 238);
@@ -204,7 +205,7 @@
             // 
             // kryptonLabel5
             // 
-            kryptonLabel5.Location = new Point(31, 73);
+            kryptonLabel5.Location = new Point(20, 73);
             kryptonLabel5.Margin = new Padding(3, 2, 3, 2);
             kryptonLabel5.Name = "kryptonLabel5";
             kryptonLabel5.Size = new Size(70, 18);
@@ -216,10 +217,10 @@
             // 
             // txtInvoiceNumber
             // 
-            txtInvoiceNumber.Location = new Point(170, 65);
+            txtInvoiceNumber.Location = new Point(159, 65);
             txtInvoiceNumber.Margin = new Padding(3, 2, 3, 2);
             txtInvoiceNumber.Name = "txtInvoiceNumber";
-            txtInvoiceNumber.Size = new Size(246, 26);
+            txtInvoiceNumber.Size = new Size(279, 26);
             txtInvoiceNumber.StateCommon.Back.Color1 = Color.White;
             txtInvoiceNumber.StateCommon.Border.DrawBorders = Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom | Krypton.Toolkit.PaletteDrawBorders.Left | Krypton.Toolkit.PaletteDrawBorders.Right;
             txtInvoiceNumber.StateCommon.Border.GraphicsHint = Krypton.Toolkit.PaletteGraphicsHint.AntiAlias;
@@ -282,10 +283,10 @@
             // txtInventoryNumberView
             // 
             txtInventoryNumberView.Enabled = false;
-            txtInventoryNumberView.Location = new Point(241, 192);
+            txtInventoryNumberView.Location = new Point(230, 192);
             txtInventoryNumberView.Margin = new Padding(3, 2, 3, 2);
             txtInventoryNumberView.Name = "txtInventoryNumberView";
-            txtInventoryNumberView.Size = new Size(177, 26);
+            txtInventoryNumberView.Size = new Size(208, 26);
             txtInventoryNumberView.StateCommon.Back.Color1 = Color.White;
             txtInventoryNumberView.StateCommon.Border.DrawBorders = Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom | Krypton.Toolkit.PaletteDrawBorders.Left | Krypton.Toolkit.PaletteDrawBorders.Right;
             txtInventoryNumberView.StateCommon.Border.GraphicsHint = Krypton.Toolkit.PaletteGraphicsHint.AntiAlias;
@@ -297,7 +298,7 @@
             // numInventoryNumber
             // 
             numInventoryNumber.Increment = new decimal(new int[] { 1, 0, 0, 0 });
-            numInventoryNumber.Location = new Point(173, 188);
+            numInventoryNumber.Location = new Point(162, 188);
             numInventoryNumber.Margin = new Padding(3, 2, 3, 2);
             numInventoryNumber.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
             numInventoryNumber.Minimum = new decimal(new int[] { 0, 0, 0, 0 });
@@ -333,6 +334,7 @@
             Controls.Add(dtpPurchaseDate);
             Controls.Add(kryptonLabel5);
             Controls.Add(txtInvoiceNumber);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(3, 2, 3, 2);
             Name = "FormAddEquipment";
             StartPosition = FormStartPosition.CenterScreen;

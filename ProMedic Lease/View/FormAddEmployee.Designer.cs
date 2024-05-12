@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormAddEmployee));
             kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
             txtFirstName = new Krypton.Toolkit.KryptonTextBox();
             kryptonLabel2 = new Krypton.Toolkit.KryptonLabel();
@@ -525,6 +526,7 @@
             Controls.Add(txtLastName);
             Controls.Add(kryptonLabel1);
             Controls.Add(txtFirstName);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(3, 2, 3, 2);
             Name = "FormAddEmployee";
             StartPosition = FormStartPosition.CenterScreen;

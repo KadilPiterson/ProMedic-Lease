@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             pnlSideMenu = new Panel();
             pnlDictionary = new Panel();
             btnPosition = new Button();
@@ -51,11 +52,11 @@
             btnEmployeeList = new Button();
             btnEmployee = new Button();
             pnlLogo = new Panel();
+            pictureBox1 = new PictureBox();
             btnSettings = new Button();
             pnlChildForm = new Panel();
             pnlTitle = new Panel();
-            labelTitle = new Label();
-            kryptonPictureBox1 = new Krypton.Toolkit.KryptonPictureBox();
+            lblTitle = new Label();
             pnlSideMenu.SuspendLayout();
             pnlDictionary.SuspendLayout();
             pnlMaintenanceHistory.SuspendLayout();
@@ -64,8 +65,8 @@
             pnlEquipment.SuspendLayout();
             pnlEmployee.SuspendLayout();
             pnlLogo.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             pnlTitle.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)kryptonPictureBox1).BeginInit();
             SuspendLayout();
             // 
             // pnlSideMenu
@@ -119,10 +120,11 @@
             btnPosition.Padding = new Padding(35, 0, 0, 0);
             btnPosition.Size = new Size(250, 40);
             btnPosition.TabIndex = 3;
-            btnPosition.Tag = "Position";
-            btnPosition.Text = "Position";
+            btnPosition.Tag = "Stanowisko";
+            btnPosition.Text = "Stanowisko";
             btnPosition.TextAlign = ContentAlignment.MiddleLeft;
             btnPosition.UseVisualStyleBackColor = false;
+            btnPosition.Click += btnPosition_Click;
             // 
             // btnEquipmentType
             // 
@@ -139,10 +141,11 @@
             btnEquipmentType.Padding = new Padding(35, 0, 0, 0);
             btnEquipmentType.Size = new Size(250, 43);
             btnEquipmentType.TabIndex = 2;
-            btnEquipmentType.Tag = "EquipmentType";
-            btnEquipmentType.Text = "EquipmentType";
+            btnEquipmentType.Tag = "Typ sprzętu";
+            btnEquipmentType.Text = "Typ sprzętu";
             btnEquipmentType.TextAlign = ContentAlignment.MiddleLeft;
             btnEquipmentType.UseVisualStyleBackColor = false;
+            btnEquipmentType.Click += btnEquipmentType_Click;
             // 
             // btnDepartment
             // 
@@ -159,10 +162,11 @@
             btnDepartment.Padding = new Padding(35, 0, 0, 0);
             btnDepartment.Size = new Size(250, 43);
             btnDepartment.TabIndex = 0;
-            btnDepartment.Tag = "Department";
-            btnDepartment.Text = "Department";
+            btnDepartment.Tag = "Oddział";
+            btnDepartment.Text = "Oddział";
             btnDepartment.TextAlign = ContentAlignment.MiddleLeft;
             btnDepartment.UseVisualStyleBackColor = false;
+            btnDepartment.Click += btnDepartment_Click;
             // 
             // btnDictionary
             // 
@@ -177,8 +181,8 @@
             btnDictionary.Padding = new Padding(10, 0, 0, 0);
             btnDictionary.Size = new Size(250, 45);
             btnDictionary.TabIndex = 12;
-            btnDictionary.Tag = "Dictionary";
-            btnDictionary.Text = "Dictionary";
+            btnDictionary.Tag = "Słownik";
+            btnDictionary.Text = "Słownik";
             btnDictionary.TextAlign = ContentAlignment.MiddleLeft;
             btnDictionary.UseVisualStyleBackColor = false;
             btnDictionary.Click += btnDictionary_Click;
@@ -208,8 +212,8 @@
             btnMaintenanceHistoryList.Padding = new Padding(35, 0, 0, 0);
             btnMaintenanceHistoryList.Size = new Size(250, 43);
             btnMaintenanceHistoryList.TabIndex = 0;
-            btnMaintenanceHistoryList.Tag = "List";
-            btnMaintenanceHistoryList.Text = "List";
+            btnMaintenanceHistoryList.Tag = "Lista";
+            btnMaintenanceHistoryList.Text = "Lista";
             btnMaintenanceHistoryList.TextAlign = ContentAlignment.MiddleLeft;
             btnMaintenanceHistoryList.UseVisualStyleBackColor = false;
             btnMaintenanceHistoryList.Click += btnMaintenanceHistoryList_Click;
@@ -227,8 +231,8 @@
             btnMaintenanceHistory.Padding = new Padding(10, 0, 0, 0);
             btnMaintenanceHistory.Size = new Size(250, 45);
             btnMaintenanceHistory.TabIndex = 10;
-            btnMaintenanceHistory.Tag = "MaintenanceHistory";
-            btnMaintenanceHistory.Text = "MaintenanceHistory";
+            btnMaintenanceHistory.Tag = "Konserwacja";
+            btnMaintenanceHistory.Text = "Konserwacja";
             btnMaintenanceHistory.TextAlign = ContentAlignment.MiddleLeft;
             btnMaintenanceHistory.UseVisualStyleBackColor = false;
             btnMaintenanceHistory.Click += btnMaintenanceHistory_Click;
@@ -258,8 +262,8 @@
             btnClientList.Padding = new Padding(35, 0, 0, 0);
             btnClientList.Size = new Size(250, 43);
             btnClientList.TabIndex = 0;
-            btnClientList.Tag = "List";
-            btnClientList.Text = "List";
+            btnClientList.Tag = "Lista";
+            btnClientList.Text = "Lista";
             btnClientList.TextAlign = ContentAlignment.MiddleLeft;
             btnClientList.UseVisualStyleBackColor = false;
             btnClientList.Click += btnClientList_Click;
@@ -277,8 +281,8 @@
             btnClient.Padding = new Padding(10, 0, 0, 0);
             btnClient.Size = new Size(250, 45);
             btnClient.TabIndex = 8;
-            btnClient.Tag = "Client";
-            btnClient.Text = "Client";
+            btnClient.Tag = "Klient";
+            btnClient.Text = "Klient";
             btnClient.TextAlign = ContentAlignment.MiddleLeft;
             btnClient.UseVisualStyleBackColor = false;
             btnClient.Click += btnClient_Click;
@@ -327,8 +331,8 @@
             btnRentalList.Padding = new Padding(35, 0, 0, 0);
             btnRentalList.Size = new Size(250, 43);
             btnRentalList.TabIndex = 0;
-            btnRentalList.Tag = "List";
-            btnRentalList.Text = "List";
+            btnRentalList.Tag = "Lista";
+            btnRentalList.Text = "Lista";
             btnRentalList.TextAlign = ContentAlignment.MiddleLeft;
             btnRentalList.UseVisualStyleBackColor = false;
             btnRentalList.Click += btnRentalList_Click;
@@ -346,8 +350,8 @@
             btnRental.Padding = new Padding(10, 0, 0, 0);
             btnRental.Size = new Size(250, 45);
             btnRental.TabIndex = 5;
-            btnRental.Tag = "Rental";
-            btnRental.Text = "Rental";
+            btnRental.Tag = "Wypożyczenie";
+            btnRental.Text = "Wypożyczenie";
             btnRental.TextAlign = ContentAlignment.MiddleLeft;
             btnRental.UseVisualStyleBackColor = false;
             btnRental.Click += btnRental_Click;
@@ -377,8 +381,8 @@
             btnEquipmentList.Padding = new Padding(35, 0, 0, 0);
             btnEquipmentList.Size = new Size(250, 40);
             btnEquipmentList.TabIndex = 0;
-            btnEquipmentList.Tag = "List";
-            btnEquipmentList.Text = "List";
+            btnEquipmentList.Tag = "Lista";
+            btnEquipmentList.Text = "Lista";
             btnEquipmentList.TextAlign = ContentAlignment.MiddleLeft;
             btnEquipmentList.UseVisualStyleBackColor = false;
             btnEquipmentList.Click += btnEquipmentList_Click;
@@ -396,8 +400,8 @@
             btnEquipment.Padding = new Padding(10, 0, 0, 0);
             btnEquipment.Size = new Size(250, 45);
             btnEquipment.TabIndex = 3;
-            btnEquipment.Tag = "Equipment";
-            btnEquipment.Text = "Equipment";
+            btnEquipment.Tag = "Sprzęt";
+            btnEquipment.Text = "Sprzęt";
             btnEquipment.TextAlign = ContentAlignment.MiddleLeft;
             btnEquipment.UseVisualStyleBackColor = false;
             btnEquipment.Click += btnEquipment_Click;
@@ -427,8 +431,8 @@
             btnEmployeeList.Padding = new Padding(35, 0, 0, 0);
             btnEmployeeList.Size = new Size(250, 40);
             btnEmployeeList.TabIndex = 0;
-            btnEmployeeList.Tag = "List";
-            btnEmployeeList.Text = "List";
+            btnEmployeeList.Tag = "Lista";
+            btnEmployeeList.Text = "Lista";
             btnEmployeeList.TextAlign = ContentAlignment.MiddleLeft;
             btnEmployeeList.UseVisualStyleBackColor = false;
             btnEmployeeList.Click += btnEmployeeList_Click;
@@ -446,8 +450,8 @@
             btnEmployee.Padding = new Padding(10, 0, 0, 0);
             btnEmployee.Size = new Size(250, 45);
             btnEmployee.TabIndex = 1;
-            btnEmployee.Tag = "Employee";
-            btnEmployee.Text = "Employee";
+            btnEmployee.Tag = "Pracownik";
+            btnEmployee.Text = "Pracownik";
             btnEmployee.TextAlign = ContentAlignment.MiddleLeft;
             btnEmployee.UseVisualStyleBackColor = false;
             btnEmployee.Click += btnEmployee_Click;
@@ -455,13 +459,23 @@
             // pnlLogo
             // 
             pnlLogo.BackColor = Color.FromArgb(23, 35, 49);
-            pnlLogo.Controls.Add(kryptonPictureBox1);
+            pnlLogo.Controls.Add(pictureBox1);
             pnlLogo.Controls.Add(btnSettings);
             pnlLogo.Dock = DockStyle.Top;
             pnlLogo.Location = new Point(0, 0);
             pnlLogo.Name = "pnlLogo";
             pnlLogo.Size = new Size(250, 125);
             pnlLogo.TabIndex = 0;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = Properties.Resources.logo;
+            pictureBox1.Location = new Point(0, 0);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(250, 125);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.TabIndex = 0;
+            pictureBox1.TabStop = false;
             // 
             // btnSettings
             // 
@@ -487,31 +501,23 @@
             // pnlTitle
             // 
             pnlTitle.BackColor = Color.FromArgb(23, 35, 49);
-            pnlTitle.Controls.Add(labelTitle);
+            pnlTitle.Controls.Add(lblTitle);
             pnlTitle.Dock = DockStyle.Top;
             pnlTitle.Location = new Point(250, 0);
             pnlTitle.Name = "pnlTitle";
             pnlTitle.Size = new Size(1234, 125);
             pnlTitle.TabIndex = 0;
             // 
-            // labelTitle
+            // lblTitle
             // 
-            labelTitle.AutoSize = true;
-            labelTitle.Font = new Font("Microsoft Sans Serif", 30F, FontStyle.Bold);
-            labelTitle.ForeColor = Color.WhiteSmoke;
-            labelTitle.Location = new Point(103, 36);
-            labelTitle.Name = "labelTitle";
-            labelTitle.Size = new Size(131, 46);
-            labelTitle.TabIndex = 0;
-            labelTitle.Text = "Home";
-            // 
-            // kryptonPictureBox1
-            // 
-            kryptonPictureBox1.Location = new Point(0, 0);
-            kryptonPictureBox1.Name = "kryptonPictureBox1";
-            kryptonPictureBox1.Size = new Size(250, 125);
-            kryptonPictureBox1.TabIndex = 0;
-            kryptonPictureBox1.TabStop = false;
+            lblTitle.AutoSize = true;
+            lblTitle.Font = new Font("Microsoft Sans Serif", 30F, FontStyle.Bold);
+            lblTitle.ForeColor = Color.WhiteSmoke;
+            lblTitle.Location = new Point(103, 36);
+            lblTitle.Name = "lblTitle";
+            lblTitle.Size = new Size(131, 46);
+            lblTitle.TabIndex = 0;
+            lblTitle.Text = "Home";
             // 
             // FormMain
             // 
@@ -522,6 +528,7 @@
             Controls.Add(pnlChildForm);
             Controls.Add(pnlSideMenu);
             Font = new Font("Segoe UI", 10F);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MinimumSize = new Size(950, 600);
             Name = "FormMain";
             Text = "ProMedic Lease";
@@ -533,9 +540,9 @@
             pnlEquipment.ResumeLayout(false);
             pnlEmployee.ResumeLayout(false);
             pnlLogo.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             pnlTitle.ResumeLayout(false);
             pnlTitle.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)kryptonPictureBox1).EndInit();
             ResumeLayout(false);
         }
 
@@ -557,7 +564,7 @@
         private Panel pnlEquipment;
         private Button btnEquipmentList;
         private Button btnSettings;
-        private Label labelTitle;
+        private Label lblTitle;
         private Panel pnlDictionary;
         private Button btnDepartment;
         private Button btnDictionary;
@@ -569,6 +576,6 @@
         private Button btnClient;
         private Button btnPosition;
         private Button btnEquipmentType;
-        private Krypton.Toolkit.KryptonPictureBox kryptonPictureBox1;
+        private PictureBox pictureBox1;
     }
 }

@@ -102,26 +102,31 @@ namespace ProMedic_Lease
         private void btnEmployeeList_Click(object sender, EventArgs e)
         {
             openChildForm(new FormEmployee(_serviceFacade));
+            lblTitle.Text = "Pracownik";
         }
 
         private void btnEquipmentList_Click(object sender, EventArgs e)
         {
             openChildForm(new FormEquipment(_serviceFacade));
+            lblTitle.Text = "Sprzêt";
         }
 
         private void btnRentalList_Click(object sender, EventArgs e)
         {
             openChildForm(new FormRental(_serviceFacade));
+            lblTitle.Text = "Wypozyczenie";
         }
 
         private void btnClientList_Click(object sender, EventArgs e)
         {
             openChildForm(new FormClient(_serviceFacade));
+            lblTitle.Text = "Klient";
         }
 
         private void btnMaintenanceHistoryList_Click(object sender, EventArgs e)
         {
             openChildForm(new FormMaintenanceHistory(_serviceFacade));
+            lblTitle.Text = "Konserwacja";
         }
 
         private void btnLogout_Click(object sender, EventArgs e)
@@ -139,6 +144,24 @@ namespace ProMedic_Lease
         private void pictureBox1_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnDepartment_Click(object sender, EventArgs e)
+        {
+            openChildForm(new FormDepartment(_serviceFacade));
+            lblTitle.Text = "Oddzia³";
+        }
+
+        private void btnEquipmentType_Click(object sender, EventArgs e)
+        {
+            openChildForm(new FormEquipmentType(_serviceFacade));
+            lblTitle.Text = "Typ sprzêtu";
+        }
+
+        private void btnPosition_Click(object sender, EventArgs e)
+        {
+            openChildForm(new FormPosition(_serviceFacade));
+            lblTitle.Text = "Stanowisko";
         }
     }
 }
