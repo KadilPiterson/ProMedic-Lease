@@ -46,12 +46,12 @@ Interfejs użytkownika, który umożliwia użytkownikom interakcję z systemem.
 
 Aby uruchomić ProMedic Lease, wykonaj poniższe kroki:
 
-1. ###Sklonuj repozytorium projektu:
+1. ### Sklonuj repozytorium projektu:
    Użyj poniższego polecenia w terminalu, aby sklonować repozytorium:
    ```bash
    git clone https://github.com/KadilPiterson/ProMedic-Lease
 
-2. ###Skonfiguruj bazę danych SQL Server.
+2. ### Skonfiguruj bazę danych SQL Server.
 2.1. **Pobranie i instalacja Dockera****
 
 Przejdź na stronę internetową Docker Desktop [link](https://www.docker.com/products/docker-desktop/) i pobierz Docker Desktop dla swojego systemu operacyjnego. Zainstaluj go, korzystając z dostępnych instrukcji.
@@ -66,7 +66,7 @@ Przejdź na stronę internetową Docker Desktop [link](https://www.docker.com/pr
     docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=H@rdP@ssw0rd!" -p 1433:1433 --name sqlserver -d kadilpiterson/promedic-lease-db:latest
 ```
 
-3. ###Ustaw parametry połączenia w pliku [`appsettings.json`](./appsettings.json):
+3. ### Ustaw parametry połączenia w pliku [`appsettings.json`](./appsettings.json):
    Edytuj plik `appsettings.json` i wprowadź odpowiednie parametry połączenia jeśli zmieniłeś dane w docker run:
 ```json
    {
@@ -76,7 +76,7 @@ Przejdź na stronę internetową Docker Desktop [link](https://www.docker.com/pr
    }
 ```
 
-4. ###Zainstaluj potrzebne zależności:
+4. ### Zainstaluj potrzebne zależności:
    Otwórz terminal i wykonaj poniższe polecenia, aby zainstalować niezbędne pakiety:
 ```bash
    dotnet add package Krypton.Toolkit
