@@ -17,6 +17,5 @@ namespace ProMedic_Lease.Utilities
         public static IdentityMap<Employee> Employees = new IdentityMap<Employee>();
         public static IdentityMap<Rental> Rentals = new IdentityMap<Rental>();
         public static IdentityMap<MaintenanceHistory> MaintenanceHistory = new IdentityMap<MaintenanceHistory>();
-        public static IdentityMap<EmploymentForm> EmploymentForms = new IdentityMap<EmploymentForm>();
     }
 }
