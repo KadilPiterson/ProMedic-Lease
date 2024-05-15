@@ -4,7 +4,7 @@
 
 ProMedic Lease to system zarządzania wynajmem sprzętu medycznego, stworzony z myślą o placówkach medycznych oraz firmach wynajmujących. System zapewnia efektywne zarządzanie zasobami, umożliwiając lepsze planowanie, monitorowanie i optymalizację wykorzystania sprzętu medycznego.
 
-![Logo ProMedic Lease](./Resources/logo.png "Logo ProMedic Lease")
+![Logo ProMedic Lease](ProMedic%20Lease/Resources/logo.png "Logo ProMedic Lease")
 
 ## Architektura
 
