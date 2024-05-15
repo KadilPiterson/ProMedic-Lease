@@ -4,7 +4,7 @@
 
 ProMedic Lease to system zarządzania wynajmem sprzętu medycznego, stworzony z myślą o placówkach medycznych oraz firmach wynajmujących. System zapewnia efektywne zarządzanie zasobami, umożliwiając lepsze planowanie, monitorowanie i optymalizację wykorzystania sprzętu medycznego.
 
-![Logo ProMedic Lease](./Resources/logo.png "Logo ProMedic Lease")
+![Logo ProMedic Lease](ProMedic%20Lease/Resources/logo.png "Logo ProMedic Lease")
 
 ## Architektura
 
@@ -52,23 +52,19 @@ Aby uruchomić ProMedic Lease, wykonaj poniższe kroki:
    git clone https://github.com/KadilPiterson/ProMedic-Lease
 
 2. Skonfiguruj bazę danych SQL Server.
-
 2.1. Pobranie i instalacja Dockera
 
 Przejdź na stronę internetową Docker Desktop [link](https://www.docker.com/products/docker-desktop/) i pobierz Docker Desktop dla swojego systemu operacyjnego. Zainstaluj go, korzystając z dostępnych instrukcji.
 
-2.2. Pobranie obrazu SQL Server z Docker Hub
-
-Uruchom terminal i wykonaj następujące polecenie, aby pobrać obraz bazy danych SQL Server:
-
+2.2. Pobranie obrazu SQL Server z Docker Hub. Uruchom terminal i wykonaj następujące polecenie, aby pobrać obraz bazy danych SQL Server
 ```bash
-docker push kadilpiterson/promedic-lease-db:latest
+   docker pull kadilpiterson/promedic-lease-db:latest
+```
 
 2.3 Uruchomienie kontenera SQL Server:
 ```bash
-docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=H@rdP@ssw0rd!" -p 1433:1433 --name sqlserver -d kadilpiterson/promedic-lease-db:latest
-
-
+    docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=H@rdP@ssw0rd!" -p 1433:1433 --name sqlserver -d kadilpiterson/promedic-lease-db:latest
+```
 3. **Ustaw parametry połączenia w pliku [`appsettings.json`](./appsettings.json)**:
    Edytuj plik `appsettings.json` i wprowadź odpowiednie parametry połączenia jeśli zmieniłeś dane w docker run:
    ```json
@@ -77,10 +73,10 @@ docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=H@rdP@ssw0rd!" -p 1433:1433 --name
        "DefaultConnection": "Server=twoj_server;Database=twoja_baza_danych;User Id=twoj_uzytkownik;Password=twoje_haslo;"
      }
    }
-
+```
 4. **Zainstaluj potrzebne zależności**:
    Otwórz terminal i wykonaj poniższe polecenia, aby zainstalować niezbędne pakiety:
-   ```bash
+```bash
    dotnet add package Krypton.Toolkit
    dotnet add package Microsoft.Data.SqlClient
    dotnet add package Microsoft.Extensions.Configuration.FileExtensions
@@ -88,6 +84,7 @@ docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=H@rdP@ssw0rd!" -p 1433:1433 --name
    dotnet add package Microsoft.Extensions.DependencyInjection
    dotnet add package Newtonsoft.Json
    dotnet add package System.Data.SqlClient
+```
 
 ## Użycie
 System jest zaprojektowany z myślą o intuicyjnej obsłudze. Pracownik ma dostęp do różnych modułów zależnie od przypisanych ról i uprawnień.
