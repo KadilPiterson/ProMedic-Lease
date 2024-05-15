@@ -51,20 +51,34 @@ Aby uruchomić ProMedic Lease, wykonaj poniższe kroki:
    ```bash
    git clone https://github.com/KadilPiterson/ProMedic-Lease
 
-2. Skonfiguruj bazę danych SQL Server i stwórz niezbędne tabele.
+2. **Skonfiguruj bazę danych SQL Server.**
+2.1. **Pobranie i instalacja Dockera****
 
-3. **Ustaw parametry połączenia w pliku [`appsettings.json`](./appsettings.json)**:
-   Edytuj plik `appsettings.json` i wprowadź odpowiednie parametry połączenia:
-   ```json
+Przejdź na stronę internetową Docker Desktop [link](https://www.docker.com/products/docker-desktop/) i pobierz Docker Desktop dla swojego systemu operacyjnego. Zainstaluj go, korzystając z dostępnych instrukcji.
+
+2.2. **Pobranie obrazu SQL Server z Docker Hub. Uruchom terminal i wykonaj następujące polecenie, aby pobrać obraz bazy danych SQL Server**
+```bash
+   docker pull kadilpiterson/promedic-lease-db:latest
+```
+
+2.3 **Uruchomienie kontenera SQL Server:**
+```bash
+    docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=H@rdP@ssw0rd!" -p 1433:1433 --name sqlserver -d kadilpiterson/promedic-lease-db:latest
+```
+
+3. **Ustaw parametry połączenia w pliku [`appsettings.json`](./appsettings.json):**
+   Edytuj plik `appsettings.json` i wprowadź odpowiednie parametry połączenia jeśli zmieniłeś dane w docker run:
+```json
    {
      "ConnectionStrings": {
        "DefaultConnection": "Server=twoj_server;Database=twoja_baza_danych;User Id=twoj_uzytkownik;Password=twoje_haslo;"
      }
    }
+```
 
-4. **Zainstaluj potrzebne zależności**:
+4. **Zainstaluj potrzebne zależności:**
    Otwórz terminal i wykonaj poniższe polecenia, aby zainstalować niezbędne pakiety:
-   ```bash
+```bash
    dotnet add package Krypton.Toolkit
    dotnet add package Microsoft.Data.SqlClient
    dotnet add package Microsoft.Extensions.Configuration.FileExtensions
@@ -72,18 +86,18 @@ Aby uruchomić ProMedic Lease, wykonaj poniższe kroki:
    dotnet add package Microsoft.Extensions.DependencyInjection
    dotnet add package Newtonsoft.Json
    dotnet add package System.Data.SqlClient
+```
 
 ## Użycie
 System jest zaprojektowany z myślą o intuicyjnej obsłudze. Pracownik ma dostęp do różnych modułów zależnie od przypisanych ról i uprawnień.
 
-Zarządzanie 
+**Zarządzanie** 
 Dodawaj, aktualizuj, usuwaj, wyszukuj informacje o za pomocą paneli.
 
 ## Wsparcie
 W razie problemów technicznych lub pytań dotyczących działania systemu, prosimy o kontakt przez zakładkę Issues w repozytorium GitHub.
 
 ## Licencja
-
 ProMedic Lease jest udostępniany na licencji, która pozwala na bezpłatne użytkowanie i testowanie w celach niekomercyjnych. Użycie oprogramowania do celów komercyjnych bez wyraźnej zgody autora jest zabronione. Dzięki temu podejściu, użytkownicy mogą dokładnie ocenić funkcjonalność systemu przed podjęciem decyzji o komercyjnym zastosowaniu lub nawiązaniu współpracy z deweloperem.
 Wszystkie pytania dotyczące licencji komercyjnych lub niestandardowych zastosowań ProMedic Lease powinny być kierowane do [pietrzak.kamil@proton.me](mailto:pietrzak.kamil@proton.me).
-Pełny tekst licencji znajduje się w dołączonym pliku [`LICENSE`](./LICENSE) w głównym katalogu projektu.
+Pełny tekst licencji znajduje się w dołączonym pliku [`LICENSE`](./LICENSE.md) w głównym katalogu projektu.

@@ -122,7 +122,7 @@
             Controls.Add(txtName);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "FormAddDepartment";
-            StartPosition = FormStartPosition.WindowsDefaultBounds;
+            StartPosition = FormStartPosition.CenterScreen;
             ResumeLayout(false);
             PerformLayout();
         }

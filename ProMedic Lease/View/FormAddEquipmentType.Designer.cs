@@ -122,6 +122,7 @@
             Controls.Add(txtName);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "FormAddEquipmentType";
+            StartPosition = FormStartPosition.CenterScreen;
             ResumeLayout(false);
             PerformLayout();
         }

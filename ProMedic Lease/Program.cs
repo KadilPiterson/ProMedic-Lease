@@ -61,7 +61,6 @@ namespace ProMedic_Lease
             services.AddScoped<IPositionRepository, PositionRepository>();
             services.AddScoped<IRentalRepository, RentalRepository>();
             services.AddScoped<IDepartmentRepository, DepartmentRepository>();
-            services.AddScoped<IEmploymentFormRepository, EmploymentFormRepository>();
 
             // Configure services
             services.AddScoped<IClientService, ClientService>();
@@ -72,7 +71,6 @@ namespace ProMedic_Lease
             services.AddScoped<IPositionService, PositionService>();
             services.AddScoped<IRentalService, RentalService>();
             services.AddScoped<IDepartmentService, DepartmentService>();
-            services.AddScoped<IEmploymentFormService, EmploymentFormService>();
             services.AddScoped<IServiceFacade, ServiceFacade>();
 
             services.AddScoped<FormMain>();
