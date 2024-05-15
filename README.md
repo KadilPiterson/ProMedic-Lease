@@ -4,7 +4,7 @@
 
 ProMedic Lease to system zarządzania wynajmem sprzętu medycznego, stworzony z myślą o placówkach medycznych oraz firmach wynajmujących. System zapewnia efektywne zarządzanie zasobami, umożliwiając lepsze planowanie, monitorowanie i optymalizację wykorzystania sprzętu medycznego.
 
-![Logo ProMedic Lease](ProMedic%20Lease/Resources/logo.png "Logo ProMedic Lease")
+![Logo ProMedic Lease](./Resources/logo.png "Logo ProMedic Lease")
 
 ## Architektura
 
@@ -51,10 +51,26 @@ Aby uruchomić ProMedic Lease, wykonaj poniższe kroki:
    ```bash
    git clone https://github.com/KadilPiterson/ProMedic-Lease
 
-2. Skonfiguruj bazę danych SQL Server i stwórz niezbędne tabele.
+2. Skonfiguruj bazę danych SQL Server.
+
+2.1. Pobranie i instalacja Dockera
+
+Przejdź na stronę internetową Docker Desktop [link](https://www.docker.com/products/docker-desktop/) i pobierz Docker Desktop dla swojego systemu operacyjnego. Zainstaluj go, korzystając z dostępnych instrukcji.
+
+2.2. Pobranie obrazu SQL Server z Docker Hub
+
+Uruchom terminal i wykonaj następujące polecenie, aby pobrać obraz bazy danych SQL Server:
+
+```bash
+docker push kadilpiterson/promedic-lease-db:latest
+
+2.3 Uruchomienie kontenera SQL Server:
+```bash
+docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=H@rdP@ssw0rd!" -p 1433:1433 --name sqlserver -d kadilpiterson/promedic-lease-db:latest
+
 
 3. **Ustaw parametry połączenia w pliku [`appsettings.json`](./appsettings.json)**:
-   Edytuj plik `appsettings.json` i wprowadź odpowiednie parametry połączenia:
+   Edytuj plik `appsettings.json` i wprowadź odpowiednie parametry połączenia jeśli zmieniłeś dane w docker run:
    ```json
    {
      "ConnectionStrings": {
@@ -86,4 +102,4 @@ W razie problemów technicznych lub pytań dotyczących działania systemu, pros
 
 ProMedic Lease jest udostępniany na licencji, która pozwala na bezpłatne użytkowanie i testowanie w celach niekomercyjnych. Użycie oprogramowania do celów komercyjnych bez wyraźnej zgody autora jest zabronione. Dzięki temu podejściu, użytkownicy mogą dokładnie ocenić funkcjonalność systemu przed podjęciem decyzji o komercyjnym zastosowaniu lub nawiązaniu współpracy z deweloperem.
 Wszystkie pytania dotyczące licencji komercyjnych lub niestandardowych zastosowań ProMedic Lease powinny być kierowane do [pietrzak.kamil@proton.me](mailto:pietrzak.kamil@proton.me).
-Pełny tekst licencji znajduje się w dołączonym pliku [`LICENSE`](./LICENSE) w głównym katalogu projektu.
+Pełny tekst licencji znajduje się w dołączonym pliku [`LICENSE`](./LICENSE.md) w głównym katalogu projektu.
