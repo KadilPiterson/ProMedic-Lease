@@ -21,18 +21,15 @@ namespace ProMedic_Lease
         [STAThread]
         static void Main()
         {
-            // Initialize services
             var services = new ServiceCollection();
             ConfigureServices(services);
 
-            // Build service provider
             using (ServiceProvider serviceProvider = services.BuildServiceProvider())
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 ApplicationConfiguration.Initialize();
 
-                // Resolve the main form with dependencies injected
                 var mainForm = serviceProvider.GetRequiredService<FormMain>();
                 Application.Run(mainForm);
             }
@@ -40,16 +37,13 @@ namespace ProMedic_Lease
 
         private static void ConfigureServices(IServiceCollection services)
         {
-            // Konfigurujemy dostêp do pliku konfiguracyjnego
             var config = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .Build();
 
-            // Rejestrujemy IConfiguration w kontenerze
             services.AddSingleton<IConfiguration>(config);
 
-            // Configure database manager
             services.AddSingleton<DatabaseManager>();
 
             // Configure repositories

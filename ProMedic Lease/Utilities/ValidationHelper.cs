@@ -59,7 +59,6 @@ namespace ProMedic_Lease.Utilities
 
         public static bool IsValidPostalCode(string postalCode)
         {
-            // Przykład walidacji polskiego kodu pocztowego: 00-000
             if (string.IsNullOrWhiteSpace(postalCode))
             {
                 return false;

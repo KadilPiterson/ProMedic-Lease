@@ -67,7 +67,6 @@ namespace ProMedic_Lease.View
         {
             List<string> errors = new List<string>();
 
-            // Check for empty fields
             if (string.IsNullOrWhiteSpace(txtFirstName.Text))
                 errors.Add("Imię jest wymagane.");
             if (string.IsNullOrWhiteSpace(txtLastName.Text))
@@ -80,10 +79,9 @@ namespace ProMedic_Lease.View
                 errors.Add("PESEL jest nieprawidłowy.");
             if (!ValidationHelper.IsValidPostalCode(txtPostalCode.Text))
                 errors.Add("Kod pocztowy jest nieprawidłowy. Wymagany format to 00-000.");
-            // Check if numeric values are greater than zero
             if (nudHouseNumber.Value <= 0)
                 errors.Add("Numer domu musi być większy niż 0.");
-            if (nudApartmentNumber.Value < 0) // Assuming apartment number could be zero for a house
+            if (nudApartmentNumber.Value < 0) 
                 errors.Add("Numer lokalu nie może być ujemny.");
 
             return new ValidationResult(errors);

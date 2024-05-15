@@ -28,9 +28,7 @@ namespace ProMedic_Lease.View
         {
             if (dgvClients.SelectedRows.Count > 0)
             {
-                // Pobranie zaznaczonego wiersza
                 var row = dgvClients.SelectedRows[0];
-                // Aktualizacja TextBoxów
                 txtFirstName.Text = Convert.ToString(row.Cells["FirstName"].Value);
                 txtLastName.Text = Convert.ToString(row.Cells["LastName"].Value);
                 txtEmail.Text = Convert.ToString(row.Cells["Email"].Value);
@@ -50,19 +48,15 @@ namespace ProMedic_Lease.View
         {
             using (FormAddClient addForm = new FormAddClient(_serviceFacade))
             {
-                // Show the FormAddEmployee as a modal dialog and capture the result
                 DialogResult result = addForm.ShowDialog(this);
 
-                // Handle the dialog result
                 if (result == DialogResult.OK)
                 {
-                    // Refresh the employee grid to reflect added employee
                     RefreshGrid();
                     MessageBox.Show("Nowy klient został dodany.", "Dodanie klienta", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else if (result == DialogResult.Cancel)
                 {
-                    // Optionally handle scenarios where Cancel is pressed, if needed
                     MessageBox.Show("Dodawanie nowego klienta zostało anulowane.", "Anulowano", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
@@ -75,7 +69,6 @@ namespace ProMedic_Lease.View
                 var row = dgvClients.SelectedRows[0];
                 long id = Convert.ToInt64(row.Cells["Id"].Value);
 
-                // Pobranie aktualnych danych pracownika z bazy danych lub pamięci podręcznej
                 Client updated = _serviceFacade.ClientService.GetById(id);
                 if (updated == null)
                 {
@@ -83,23 +76,19 @@ namespace ProMedic_Lease.View
                     return;
                 }
 
-                // Przygotowanie pracownika do aktualizacji na podstawie danych formularza
                 PrepareForUpdate(updated);
 
-                // Walidacja danych pracownika
                 var validationResult = ValidateData(updated);
                 if (!validationResult.IsValid)
                 {
                     MessageBox.Show(string.Join("\n", validationResult.Errors), "Błędy walidacji", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-
-                // Wywołanie serwisu do aktualizacji danych pracownika
                 try
                 {
                     _serviceFacade.ClientService.Update(updated);
                     MessageBox.Show("Pomyślnie zaktualizowano dane klienta.", "Aktualizacja zakończona", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    RefreshGrid();  // Odświeżenie DataGridView, aby pokazać zaktualizowane dane
+                    RefreshGrid(); 
                 }
                 catch (Exception ex)
                 {
@@ -125,7 +114,6 @@ namespace ProMedic_Lease.View
                 {
                     try
                     {
-                        // Usuń pracownika za pomocą serwisu
                         _serviceFacade.ClientService.Delete(id);
                         MessageBox.Show("Klient został usunięty.", "Usunięcie zakończone sukcesem", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         RefreshGrid();

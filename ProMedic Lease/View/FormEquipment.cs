@@ -35,19 +35,15 @@ namespace ProMedic_Lease.View
         {
             using (FormAddEquipment addForm = new FormAddEquipment(_serviceFacade))
             {
-                // Pokaż FormAddEquipment jako dialog modalny i przechwyć wynik
                 DialogResult result = addForm.ShowDialog(this);
 
-                // Obsługa wyniku dialogu
                 if (result == DialogResult.OK)
                 {
-                    // Odświeżenie siatki sprzętu, aby odzwierciedlić dodany sprzęt
                     RefreshGrid();
                     MessageBox.Show("Nowy sprzęt został dodany.", "Dodanie Sprzętu", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else if (result == DialogResult.Cancel)
                 {
-                    // Opcjonalnie obsłuż sytuacje, gdy naciśnięto Anuluj
                     MessageBox.Show("Dodawanie nowego sprzętu zostało anulowane.", "Anulowano", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
@@ -147,7 +143,6 @@ namespace ProMedic_Lease.View
             equipment.EquipmentType = cmbEquipmentType.SelectedItem as EquipmentType;
             equipment.DailyRentalPrice = nudDailyRentalPrice.Value;
 
-            // Obsługa null dla daty zakończenia zatrudnienia
             if (dtpDisposalDate.Visible && dtpDisposalDate.Value != DateTime.MinValue)
             {
                 equipment.DisposalDate = dtpDisposalDate.Value;

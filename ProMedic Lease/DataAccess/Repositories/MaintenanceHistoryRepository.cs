@@ -157,7 +157,7 @@ namespace ProMedic_Lease.DataAccess.Repositories
                 Equipment = equipment, 
                 Employee = employee,   
                 DateStart = Convert.ToDateTime(row["DateStart"]),  
-                DateEnd = row["DateEnd"] != DBNull.Value ? Convert.ToDateTime(row["DateEnd"]) : (DateTime?)null,  // Użycie aliasu nadanego w SQL
+                DateEnd = row["DateEnd"] != DBNull.Value ? Convert.ToDateTime(row["DateEnd"]) : (DateTime?)null, 
                 Description = row["Description"] as string ?? string.Empty,  
                 Cost = Convert.ToDecimal(row["Cost"]),
                 IsActive = Convert.ToBoolean(row["Status"])  

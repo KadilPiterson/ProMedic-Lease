@@ -21,7 +21,6 @@ namespace ProMedic_Lease
 
         private void CustomizeDesign()
         {
-            // Initially hide all sub-menus
             pnlEmployee.Visible = false;
             pnlEquipment.Visible = false;
             pnlRentalSubmenu.Visible = false;
@@ -66,7 +65,6 @@ namespace ProMedic_Lease
             childForm.Show();
         }
 
-        // Event handlers for menu buttons
         private void btnEmployee_Click(object sender, EventArgs e)
         {
             showSubMenu(pnlEmployee);
@@ -98,7 +96,7 @@ namespace ProMedic_Lease
         }
 
 
-        // Event handlers for opening specific forms
+
         private void btnEmployeeList_Click(object sender, EventArgs e)
         {
             openChildForm(new FormEmployee(_serviceFacade));
@@ -131,9 +129,7 @@ namespace ProMedic_Lease
 
         private void btnLogout_Click(object sender, EventArgs e)
         {
-            // Logout logic
-            this.Close(); // For example, close this form
-            // Optionally re-open the login form or another form
+            this.Close(); 
         }
 
         private void btnSettings_Click(object sender, EventArgs e)

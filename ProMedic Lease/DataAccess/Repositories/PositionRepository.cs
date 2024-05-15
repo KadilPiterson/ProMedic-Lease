@@ -65,7 +65,7 @@ namespace ProMedic_Lease.DataAccess.Repositories
             string query = _queries["Delete"];
             SqlParameter[] parameters = { new SqlParameter("@Id", id) };
             _databaseManager.ExecuteNonQuery(query, parameters);
-            Cache.Positions.Remove(id); // Remove from cache
+            Cache.Positions.Remove(id); 
         }
 
         private SqlParameter[] BuildParameters(Position position, bool includeId = false)

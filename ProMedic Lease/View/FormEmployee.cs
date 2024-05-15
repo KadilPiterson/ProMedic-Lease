@@ -40,9 +40,7 @@ namespace ProMedic_Lease
         {
             if (dgvEmployees.SelectedRows.Count > 0)
             {
-                // Pobranie zaznaczonego wiersza
                 var row = dgvEmployees.SelectedRows[0];
-                // Aktualizacja TextBoxów
                 txtFirstName.Text = Convert.ToString(row.Cells["FirstName"].Value);
                 txtLastName.Text = Convert.ToString(row.Cells["LastName"].Value);
                 txtEmail.Text = Convert.ToString(row.Cells["Email"].Value);
@@ -78,19 +76,15 @@ namespace ProMedic_Lease
         {
             using (FormAddEmployee addForm = new FormAddEmployee(_serviceFacade))
             {
-                // Show the FormAddEmployee as a modal dialog and capture the result
                 DialogResult result = addForm.ShowDialog(this);
 
-                // Handle the dialog result
                 if (result == DialogResult.OK)
                 {
-                    // Refresh the employee grid to reflect added employee
                     RefreshGrid();
                     MessageBox.Show("Nowy pracownik został dodany.", "Dodanie Pracownika", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else if (result == DialogResult.Cancel)
                 {
-                    // Optionally handle scenarios where Cancel is pressed, if needed
                     MessageBox.Show("Dodawanie nowego pracownika zostało anulowane.", "Anulowano", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
@@ -110,10 +104,8 @@ namespace ProMedic_Lease
                     return;
                 }
 
-                // Przygotowanie pracownika do aktualizacji na podstawie danych formularza
                 PrepareForUpdate(updated);
 
-                // Walidacja danych pracownika
                 var validationResult = ValidateData(updated);
                 if (!validationResult.IsValid)
                 {
@@ -121,12 +113,11 @@ namespace ProMedic_Lease
                     return;
                 }
 
-                // Wywołanie serwisu do aktualizacji danych pracownika
                 try
                 {
                     _serviceFacade.EmployeeService.Update(updated);
                     MessageBox.Show("Pomyślnie zaktualizowano dane pracownika.", "Aktualizacja zakończona", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    RefreshGrid();  // Odświeżenie DataGridView, aby pokazać zaktualizowane dane
+                    RefreshGrid(); 
                 }
                 catch (Exception ex)
                 {
@@ -147,14 +138,12 @@ namespace ProMedic_Lease
                 var row = dgvEmployees.SelectedRows[0];
                 long id = Convert.ToInt64(row.Cells["Id"].Value);
 
-                // Wyświetl okno dialogowe z potwierdzeniem, dodaj ikonę ostrzeżenia
                 var result = MessageBox.Show("Czy na pewno chcesz usunąć tego pracownika?", "Potwierdzenie usunięcia", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
                 if (result == DialogResult.Yes)
                 {
                     try
                     {
-                        // Usuń pracownika za pomocą serwisu
                         _serviceFacade.EmployeeService.Delete(id);
                         MessageBox.Show("Pracownik został usunięty.", "Usunięcie zakończone sukcesem", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         RefreshGrid();
@@ -212,7 +201,6 @@ namespace ProMedic_Lease
             employee.Position = (Position)cmbPosition.SelectedItem;
             employee.IsActive = chkIsActive.Checked;
 
-            // Obsługa null dla daty zakończenia zatrudnienia
             if (dtpTerminationDate.Visible && dtpTerminationDate.Value != DateTime.MinValue)
             {
                 employee.TerminationDate = dtpTerminationDate.Value;

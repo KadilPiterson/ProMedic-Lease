@@ -84,7 +84,6 @@ namespace ProMedic_Lease.View
         {
             List<string> errors = new List<string>();
 
-            // Check for empty fields
             if (string.IsNullOrWhiteSpace(txtFirstName.Text))
                 errors.Add("Imię jest wymagane.");
             if (string.IsNullOrWhiteSpace(txtLastName.Text))
