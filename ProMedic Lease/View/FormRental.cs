@@ -114,8 +114,10 @@ namespace ProMedic_Lease.View
                         newEquipment.IsActive = false;
                     }
 
-                    updated.IsActive = updated.EndDate == null;
-
+                    if (updated.EndDate != null) {
+                        newEquipment.IsActive = true;
+                    }
+                    
                     _serviceFacade.RentalService.Update(updated);
                     _serviceFacade.EquipmentService.Update(newEquipment);
                     if (oldEquipment != newEquipment)
@@ -183,7 +185,7 @@ namespace ProMedic_Lease.View
             cmbClient.DisplayMember = "FullName";
             cmbClient.ValueMember = "Id";
 
-            var employees = _serviceFacade.EmployeeService.GetAllActive();
+            var employees = _serviceFacade.EmployeeService.GetAllSeller();
             cmbEmployee.DataSource = employees;
             cmbEmployee.DisplayMember = "FullName";
             cmbEmployee.ValueMember = "Id";

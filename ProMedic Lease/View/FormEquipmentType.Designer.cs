@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            kryptonLabel2 = new Krypton.Toolkit.KryptonLabel();
             txtName = new Krypton.Toolkit.KryptonTextBox();
             kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
             btnUpdate = new Krypton.Toolkit.KryptonButton();
@@ -37,20 +36,11 @@
             btnSearch = new Krypton.Toolkit.KryptonButton();
             txtSearch = new Krypton.Toolkit.KryptonTextBox();
             dgvEquipmentType = new Krypton.Toolkit.KryptonDataGridView();
+            txtDescription = new Krypton.Toolkit.KryptonTextBox();
+            kryptonLabel2 = new Krypton.Toolkit.KryptonLabel();
+            kryptonLabel3 = new Krypton.Toolkit.KryptonLabel();
             ((System.ComponentModel.ISupportInitialize)dgvEquipmentType).BeginInit();
             SuspendLayout();
-            // 
-            // kryptonLabel2
-            // 
-            kryptonLabel2.Location = new Point(11, 431);
-            kryptonLabel2.Margin = new Padding(3, 2, 3, 2);
-            kryptonLabel2.Name = "kryptonLabel2";
-            kryptonLabel2.Size = new Size(53, 18);
-            kryptonLabel2.StateCommon.ShortText.Color1 = Color.White;
-            kryptonLabel2.StateCommon.ShortText.Color2 = Color.White;
-            kryptonLabel2.StateCommon.ShortText.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold, GraphicsUnit.Point, 238);
-            kryptonLabel2.TabIndex = 92;
-            kryptonLabel2.Values.Text = "Nazwa:";
             // 
             // txtName
             // 
@@ -178,6 +168,7 @@
             btnDelete.StateTracking.Border.Width = 1;
             btnDelete.TabIndex = 88;
             btnDelete.Values.Text = "Usuń";
+            btnDelete.Click += btnDelete_Click;
             // 
             // btnAdd
             // 
@@ -338,12 +329,52 @@
             dgvEquipmentType.TabIndex = 84;
             dgvEquipmentType.SelectionChanged += dgvEquipmentType_SelectionChanged;
             // 
+            // txtDescription
+            // 
+            txtDescription.Location = new Point(170, 450);
+            txtDescription.Margin = new Padding(3, 2, 3, 2);
+            txtDescription.Name = "txtDescription";
+            txtDescription.Size = new Size(376, 26);
+            txtDescription.StateCommon.Back.Color1 = Color.White;
+            txtDescription.StateCommon.Border.DrawBorders = Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom | Krypton.Toolkit.PaletteDrawBorders.Left | Krypton.Toolkit.PaletteDrawBorders.Right;
+            txtDescription.StateCommon.Border.GraphicsHint = Krypton.Toolkit.PaletteGraphicsHint.AntiAlias;
+            txtDescription.StateCommon.Border.Rounding = 12.5F;
+            txtDescription.StateCommon.Content.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 238);
+            txtDescription.StateCommon.Content.Padding = new Padding(10, 0, 10, 0);
+            txtDescription.TabIndex = 93;
+            // 
+            // kryptonLabel2
+            // 
+            kryptonLabel2.Location = new Point(11, 431);
+            kryptonLabel2.Margin = new Padding(3, 2, 3, 2);
+            kryptonLabel2.Name = "kryptonLabel2";
+            kryptonLabel2.Size = new Size(53, 18);
+            kryptonLabel2.StateCommon.ShortText.Color1 = Color.White;
+            kryptonLabel2.StateCommon.ShortText.Color2 = Color.White;
+            kryptonLabel2.StateCommon.ShortText.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold, GraphicsUnit.Point, 238);
+            kryptonLabel2.TabIndex = 92;
+            kryptonLabel2.Values.Text = "Nazwa:";
+            // 
+            // kryptonLabel3
+            // 
+            kryptonLabel3.Location = new Point(170, 431);
+            kryptonLabel3.Margin = new Padding(3, 2, 3, 2);
+            kryptonLabel3.Name = "kryptonLabel3";
+            kryptonLabel3.Size = new Size(41, 18);
+            kryptonLabel3.StateCommon.ShortText.Color1 = Color.White;
+            kryptonLabel3.StateCommon.ShortText.Color2 = Color.White;
+            kryptonLabel3.StateCommon.ShortText.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold, GraphicsUnit.Point, 238);
+            kryptonLabel3.TabIndex = 94;
+            kryptonLabel3.Values.Text = "Opis:";
+            // 
             // FormEquipmentType
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(41, 57, 76);
             ClientSize = new Size(1214, 518);
+            Controls.Add(kryptonLabel3);
+            Controls.Add(txtDescription);
             Controls.Add(kryptonLabel2);
             Controls.Add(txtName);
             Controls.Add(kryptonLabel1);
@@ -362,8 +393,6 @@
         }
 
         #endregion
-
-        private Krypton.Toolkit.KryptonLabel kryptonLabel2;
         private Krypton.Toolkit.KryptonTextBox txtName;
         private Krypton.Toolkit.KryptonLabel kryptonLabel1;
         private Krypton.Toolkit.KryptonButton btnUpdate;
@@ -372,5 +401,8 @@
         private Krypton.Toolkit.KryptonButton btnSearch;
         private Krypton.Toolkit.KryptonTextBox txtSearch;
         private Krypton.Toolkit.KryptonDataGridView dgvEquipmentType;
+        private Krypton.Toolkit.KryptonTextBox txtDescription;
+        private Krypton.Toolkit.KryptonLabel kryptonLabel2;
+        private Krypton.Toolkit.KryptonLabel kryptonLabel3;
     }
 }

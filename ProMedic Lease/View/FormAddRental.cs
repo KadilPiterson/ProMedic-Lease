@@ -68,7 +68,7 @@ namespace ProMedic_Lease.View
             cmbClient.ValueMember = "Id";
             cmbClient.SelectedIndex = -1;
 
-            var employees = _serviceRentalFacade.EmployeeService.GetAllActive();
+            var employees = _serviceRentalFacade.EmployeeService.GetAllSeller();
             cmbEmployee.DataSource = employees;
             cmbEmployee.DisplayMember = "FullName";
             cmbEmployee.ValueMember = "Id";

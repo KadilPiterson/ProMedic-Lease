@@ -49,6 +49,16 @@ namespace ProMedic_Lease.Services
             return _employeeRepository.GetAll().Where(e => e.IsActive == true).ToList();
         }
 
+        public IEnumerable<Employee> GetAllSeller() 
+        {
+            return _employeeRepository.GetAll().Where(e => e.Position.Id == 1).ToList();
+        }
+
+        public IEnumerable<Employee> GetAllConservator()
+        {
+            return _employeeRepository.GetAll().Where(e => e.Position.Id == 2).ToList();
+        }
+
         public IEnumerable<Employee> Search(string searchTerm)
         {
             searchTerm = searchTerm?.ToLower() ?? "";

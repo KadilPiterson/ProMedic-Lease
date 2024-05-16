@@ -65,7 +65,7 @@ namespace ProMedic_Lease.View
                     return;
                 }
 
-                _serviceFacade.DepartmentService.PrepareForUpdate(updated, txtName.Text);
+                 updated =_serviceFacade.DepartmentService.PrepareForUpdate(updated, txtName.Text);
 
                 var validationResult = ValidateData(updated);
                 if (!validationResult.IsValid)

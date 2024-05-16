@@ -52,18 +52,20 @@ namespace ProMedic_Lease.Services
                 .ToList();
         }
 
-        public EquipmentType PrepareForUpdate(EquipmentType entity, string name)
+        public EquipmentType PrepareForUpdate(EquipmentType entity, string name, string description)
         {
             entity.Name = name;
+            entity.Description = description;
 
             return entity;
         }
 
-        public EquipmentType CreateFormData(string name)
+        public EquipmentType CreateFormData(string name, string description)
         {
             return new EquipmentType
             {
-                Name = name
+                Name = name,
+                Description = description
             };
         }
     }

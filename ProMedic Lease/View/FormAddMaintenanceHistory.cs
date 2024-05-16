@@ -52,7 +52,7 @@ namespace ProMedic_Lease.View
             cmbEquipment.ValueMember = "Id";
             cmbEquipment.SelectedIndex = -1;
 
-            var employees = _serviceRentalFacade.EmployeeService.GetAllActive();
+            var employees = _serviceRentalFacade.EmployeeService.GetAllConservator();
             cmbEmployee.DataSource = employees;
             cmbEmployee.DisplayMember = "FullName";
             cmbEmployee.ValueMember = "Id";

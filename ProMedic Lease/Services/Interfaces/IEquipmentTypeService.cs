@@ -9,8 +9,8 @@ namespace ProMedic_Lease.Services.Interfaces
 {
     public interface IEquipmentTypeService : IService<EquipmentType>
     {
-        EquipmentType PrepareForUpdate(EquipmentType entity, string name);
+        EquipmentType PrepareForUpdate(EquipmentType entity, string name, string description);
 
-        EquipmentType CreateFormData(string name);
+        EquipmentType CreateFormData(string name, string description);
     }
 }

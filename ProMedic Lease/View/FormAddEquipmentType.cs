@@ -31,7 +31,7 @@ namespace ProMedic_Lease.View
                 return;
             }
 
-            EquipmentType @new = _serviceFacade.EquipmentTypeService.CreateFormData(txtName.Text);
+            EquipmentType @new = _serviceFacade.EquipmentTypeService.CreateFormData(txtName.Text, txtDescription.Text);
             try
             {
                 _serviceFacade.EquipmentTypeService.Add(@new);

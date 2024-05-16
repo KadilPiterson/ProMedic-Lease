@@ -46,7 +46,7 @@ namespace ProMedic_Lease.View
                 nudCost.Value = Convert.ToDecimal(row.Cells["Cost"].Value);
 
                 var endDate = row.Cells["DateEnd"].Value;
-                if (endDate != DBNull.Value)
+                if (endDate != null)
                 {
                     dtpDateEnd.Value = Convert.ToDateTime(endDate);
                     dtpDateEnd.Visible = true;
@@ -174,7 +174,7 @@ namespace ProMedic_Lease.View
             cmbEquipment.DisplayMember = "Name";
             cmbEquipment.ValueMember = "Id";
 
-            var employees = _serviceFacade.EmployeeService.GetAllActive();
+            var employees = _serviceFacade.EmployeeService.GetAllConservator();
             cmbEmployee.DataSource = employees;
             cmbEmployee.DisplayMember = "FullName";
             cmbEmployee.ValueMember = "Id";

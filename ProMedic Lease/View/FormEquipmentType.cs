@@ -29,13 +29,14 @@ namespace ProMedic_Lease.View
             {
                 var row = dgvEquipmentType.SelectedRows[0];
                 txtName.Text = Convert.ToString(row.Cells["Name"].Value);
+                txtDescription.Text = Convert.ToString(row.Cells["Description"].Value);
 
             }
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            using (FormAddDepartment addForm = new FormAddDepartment(_serviceFacade))
+            using (FormAddEquipmentType addForm = new FormAddEquipmentType(_serviceFacade))
             {
                 DialogResult result = addForm.ShowDialog(this);
                 if (result == DialogResult.OK)
@@ -64,7 +65,7 @@ namespace ProMedic_Lease.View
                     return;
                 }
 
-                _serviceFacade.EquipmentTypeService.PrepareForUpdate(updated, txtName.Text);
+                updated = _serviceFacade.EquipmentTypeService.PrepareForUpdate(updated, txtName.Text, txtDescription.Text);
 
                 var validationResult = ValidateData(updated);
                 if (!validationResult.IsValid)
@@ -88,6 +89,33 @@ namespace ProMedic_Lease.View
             {
                 MessageBox.Show("Nie zaznaczono żadnego typu sprzętu.", "Brak selekcji", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            string searchTerm = txtSearch.Text;
+            var filteredResults = _serviceFacade.EquipmentTypeService.Search(searchTerm);
+            UpdateGrid(filteredResults);
+        }
+        private void RefreshGrid()
+        {
+            var equipmentTypes = _serviceFacade.EquipmentTypeService.GetAll();
+            UpdateGrid(equipmentTypes);
+        }
+
+        private void UpdateGrid(IEnumerable<EquipmentType> equipmentTypes)
+        {
+            dgvEquipmentType.DataSource = equipmentTypes;
+        }
+
+        private ValidationResult ValidateData(EquipmentType equipmentTypes)
+        {
+            List<string> errors = new List<string>();
+
+            if (string.IsNullOrWhiteSpace(equipmentTypes.Name))
+                errors.Add("Nazwa jest wymagana.");
+
+            return new ValidationResult(errors);
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
@@ -117,33 +145,6 @@ namespace ProMedic_Lease.View
             {
                 MessageBox.Show("Nie wybrano żadnego typu sprzętu.", "Brak zaznaczenia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
-        }
-
-        private void btnSearch_Click(object sender, EventArgs e)
-        {
-            string searchTerm = txtSearch.Text;
-            var filteredResults = _serviceFacade.EquipmentTypeService.Search(searchTerm);
-            UpdateGrid(filteredResults);
-        }
-        private void RefreshGrid()
-        {
-            var equipmentTypes = _serviceFacade.EquipmentTypeService.GetAll();
-            UpdateGrid(equipmentTypes);
-        }
-
-        private void UpdateGrid(IEnumerable<EquipmentType> equipmentTypes)
-        {
-            dgvEquipmentType.DataSource = equipmentTypes;
-        }
-
-        private ValidationResult ValidateData(EquipmentType equipmentTypes)
-        {
-            List<string> errors = new List<string>();
-
-            if (string.IsNullOrWhiteSpace(equipmentTypes.Name))
-                errors.Add("Nazwa jest wymagana.");
-
-            return new ValidationResult(errors);
         }
     }
 }

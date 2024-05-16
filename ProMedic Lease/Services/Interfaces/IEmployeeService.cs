@@ -10,5 +10,7 @@ namespace ProMedic_Lease.Services.Interfaces
     public interface IEmployeeService : IService<Employee>
     {
         IEnumerable<Employee> GetAllActive();
+        IEnumerable<Employee> GetAllSeller();
+        IEnumerable<Employee> GetAllConservator();
     }
 }
