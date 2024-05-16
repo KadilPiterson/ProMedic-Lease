@@ -1,4 +1,4 @@
-﻿# ProMedic Lease - System Zarządzania Wynajmem Sprzętu Medycznego
+# ProMedic Lease - System Zarządzania Wynajmem Sprzętu Medycznego
 
 ## Opis
 
@@ -53,6 +53,9 @@ Aby uruchomić ProMedic Lease, wykonaj poniższe kroki:
 
 2. **Skonfiguruj bazę danych SQL Server.**
 
+2.0 **Możesz pobrac gotowy serwer bazodanowym wraz z bazą danych poprzez Docker lub wygrać plik SQL z bazą danych na własny serwer**
+Plik SQL znajduję się w katalogu: ./Resources/promedic.sq [`promedic.sql`](./Resources/promedic.sql)
+
 2.1. **Pobranie i instalacja Dockera****
 
 Przejdź na stronę internetową Docker Desktop [link](https://www.docker.com/products/docker-desktop/) i pobierz Docker Desktop dla swojego systemu operacyjnego. Zainstaluj go, korzystając z dostępnych instrukcji.
@@ -99,7 +102,7 @@ Dodawaj, aktualizuj, usuwaj, wyszukuj informacje o za pomocą paneli.
 W razie problemów technicznych lub pytań dotyczących działania systemu, prosimy o kontakt przez zakładkę Issues w repozytorium GitHub.
 
 ## Dokumentacja
-Dokumentacja techniczna i opisowa programu znajduję się tutaj: [`LICENSE`](./Documentation.md)
+Dokumentacja techniczna i opisowa programu znajduję się tutaj: [`DOCUMENTATION`](./Documentation.md)
 
 ## Licencja
 ProMedic Lease jest udostępniany na licencji, która pozwala na bezpłatne użytkowanie i testowanie w celach niekomercyjnych. Użycie oprogramowania do celów komercyjnych bez wyraźnej zgody autora jest zabronione. Dzięki temu podejściu, użytkownicy mogą dokładnie ocenić funkcjonalność systemu przed podjęciem decyzji o komercyjnym zastosowaniu lub nawiązaniu współpracy z deweloperem.
