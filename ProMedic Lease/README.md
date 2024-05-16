@@ -54,7 +54,7 @@ Aby uruchomić ProMedic Lease, wykonaj poniższe kroki:
 2. **Skonfiguruj bazę danych SQL Server.**
 
 2.0 **Możesz pobrac gotowy serwer bazodanowym wraz z bazą danych poprzez Docker lub wygrać plik SQL z bazą danych na własny serwer**
-Plik SQL znajduję się w katalogu: ./Resources/promedic.sq [`promedic.sql`](./Resources/promedic.sql)
+Plik SQL znajduje się w katalogu: [`promedic.sql`](./ProMedic%20Lease/Resources/)
 
 2.1. **Pobranie i instalacja Dockera****
 
