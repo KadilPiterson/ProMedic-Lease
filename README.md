@@ -52,6 +52,11 @@ Aby uruchomić ProMedic Lease, wykonaj poniższe kroki:
    git clone https://github.com/KadilPiterson/ProMedic-Lease
 
 2. **Skonfiguruj bazę danych SQL Server.**
+
+2.0 **Możesz pobrac gotowy serwer bazodanowym wraz z bazą danych poprzez Docker lub wygrać plik SQL z bazą danych na własny serwer**
+Plik SQL znajduje się w katalogu: ./Resources/promedic.sql [`promedic.sql`](ProMedic%20Lease/Resources/promedic.sql)
+
+
 2.1. **Pobranie i instalacja Dockera****
 
 Przejdź na stronę internetową Docker Desktop [link](https://www.docker.com/products/docker-desktop/) i pobierz Docker Desktop dla swojego systemu operacyjnego. Zainstaluj go, korzystając z dostępnych instrukcji.
@@ -89,7 +94,7 @@ Przejdź na stronę internetową Docker Desktop [link](https://www.docker.com/pr
 ```
 
 ## Użycie
-System jest zaprojektowany z myślą o intuicyjnej obsłudze. Pracownik ma dostęp do różnych modułów zależnie od przypisanych ról i uprawnień.
+System jest zaprojektowany z myślą o intuicyjnej obsłudze. Pracownik ma dostęp do różnych modułów.
 
 **Zarządzanie** 
 Dodawaj, aktualizuj, usuwaj, wyszukuj informacje o za pomocą paneli.
@@ -97,7 +102,10 @@ Dodawaj, aktualizuj, usuwaj, wyszukuj informacje o za pomocą paneli.
 ## Wsparcie
 W razie problemów technicznych lub pytań dotyczących działania systemu, prosimy o kontakt przez zakładkę Issues w repozytorium GitHub.
 
+## Dokumentacja
+Dokumentacja techniczna i opisowa programu znajduję się tutaj: [`DOCUMENTATION`](ProMedic%20Lease/Documentation.md)
+
 ## Licencja
 ProMedic Lease jest udostępniany na licencji, która pozwala na bezpłatne użytkowanie i testowanie w celach niekomercyjnych. Użycie oprogramowania do celów komercyjnych bez wyraźnej zgody autora jest zabronione. Dzięki temu podejściu, użytkownicy mogą dokładnie ocenić funkcjonalność systemu przed podjęciem decyzji o komercyjnym zastosowaniu lub nawiązaniu współpracy z deweloperem.
 Wszystkie pytania dotyczące licencji komercyjnych lub niestandardowych zastosowań ProMedic Lease powinny być kierowane do [pietrzak.kamil@proton.me](mailto:pietrzak.kamil@proton.me).
-Pełny tekst licencji znajduje się w dołączonym pliku [`LICENSE`](./LICENSE.md) w głównym katalogu projektu.
+Pełny tekst licencji znajduje się w dołączonym pliku [`LICENSE`](ProMedic%20Lease/LICENSE.md) w głównym katalogu projektu.
